@@ -2,6 +2,17 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
+let newImage = new Image();
+newImage.src = '../static/Images/sky.jpg'
+
+// When it loads
+newImage.onload = () => {
+    // Draw the image onto the context
+    ctx.drawImage(newImage, 0, 0, 500, 500);
+}
+
+
+
 // style the context
 ctx.strokeStyle = "black";
 ctx.lineWidth = 1;
@@ -76,13 +87,18 @@ function handleMouseMove(e) {
 
     // draw a new rect from the start position 
     // to the current mouse position
+    
+    ctx.drawImage(newImage, 0, 0, 500, 500);
     ctx.strokeRect(startX, startY, width, height);
+    
+    
 
 }
 
 // listen for mouse events
 $("#canvas").mousedown(function (e) {
     handleMouseDown(e);
+    
 });
 $("#canvas").mousemove(function (e) {
     handleMouseMove(e);
@@ -93,3 +109,6 @@ $("#canvas").mouseup(function (e) {
 $("#canvas").mouseout(function (e) {
     handleMouseOut(e);
 });
+
+ 
+ 
