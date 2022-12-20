@@ -1,114 +1,160 @@
-// get references to the canvas and context
 var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+var lineOffset = 4;
+var anchrSize = 2;
+var mousedown = false;
+var clickedArea = {box: -1, pos:'o'};
+var x1 = -1;
+var y1 = -1;
+var x2 = -1;
+var y2 = -1;
+var boxes = [];
+var tmpBox = null;
 
-let newImage = new Image();
-newImage.src = '../static/Images/sky.jpg'
+canvas.onmousedown = function(e) {
+  mousedown = true; 
+  clickedArea = findCurrentArea(e.offsetX, e.offsetY);
+  x1 = e.offsetX;
+  y1 = e.offsetY;
+  x2 = e.offsetX;
+  y2 = e.offsetY;
+};
+canvas.onmouseup = function(e) {
+	if (clickedArea.box == -1 && tmpBox != null) {
+     boxes.push(tmpBox);
+    } 
+  
+  clickedArea = {box: -1, pos:'o'};
+  tmpBox = null;
+  mousedown = false;
+  console.log(boxes);
+};
 
-// When it loads
-newImage.onload = () => {
-    // Draw the image onto the context
-    ctx.drawImage(newImage, 0, 0, 500, 500);
-}
-
-
-
-// style the context
-ctx.strokeStyle = "black";
-ctx.lineWidth = 1;
-
-// calculate where the canvas is on the window
-// (used to help calculate mouseX/mouseY)
-var $canvas = $("#canvas");
-var canvasOffset = $canvas.offset();
-var offsetX = canvasOffset.left;
-var offsetY = canvasOffset.top;
-var scrollX = $canvas.scrollLeft();
-var scrollY = $canvas.scrollTop();
-
-// this flage is true when the user is dragging the mouse
-var isDown = false;
-
-// these vars will hold the starting mouse position
-var startX;
-var startY;
-
-
-function handleMouseDown(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // save the starting x/y of the rectangle
-    startX = parseInt(e.clientX - offsetX);
-    startY = parseInt(e.clientY - offsetY);
-
-    // set a flag indicating the drag has begun
-    isDown = true;
-}
-
-function handleMouseUp(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // the drag is over, clear the dragging flag
-    isDown = false;
-}
-
-function handleMouseOut(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // the drag is over, clear the dragging flag
-    isDown = false;
-}
-
-function handleMouseMove(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // if we're not dragging, just return
-    if (!isDown) {
-        return;
+canvas.onmousemove = function(e) {
+  if (mousedown && clickedArea.box == -1) {
+    x2 = e.offsetX;
+    y2 = e.offsetY;
+    boxes.pop(tmpBox);
+    redraw();
+   }
+   else if (mousedown && clickedArea.box != -1) {
+    
+    x2 = e.offsetX;
+    y2 = e.offsetY;
+    xOffset = x2 - x1;
+    yOffset = y2 - y1;
+    x1 = x2;
+    y1 = y2;
+    if (clickedArea.pos == 'i'  || clickedArea.pos == 'tl' || clickedArea.pos == 'l'  ||    clickedArea.pos == 'bl') {
+      boxes[clickedArea.box].x1 += xOffset;
     }
-
-    // get the current mouse position
-    mouseX = parseInt(e.clientX - offsetX);
-    mouseY = parseInt(e.clientY - offsetY);
-
-    // Put your mousemove stuff here
-
-    // clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // calculate the rectangle width/height based
-    // on starting vs current mouse position
-    var width = mouseX - startX;
-    var height = mouseY - startY;
-
-    // draw a new rect from the start position 
-    // to the current mouse position
-    
-    ctx.drawImage(newImage, 0, 0, 500, 500);
-    ctx.strokeRect(startX, startY, width, height);
-    
-    
-
+    if (clickedArea.pos == 'i'  ||clickedArea.pos == 'tl' ||clickedArea.pos == 't'  ||   clickedArea.pos == 'tr') {
+      boxes[clickedArea.box].y1 += yOffset;
+    }
+    if (clickedArea.pos == 'i'  || clickedArea.pos == 'tr' || clickedArea.pos == 'r'  ||clickedArea.pos == 'br') {
+      boxes[clickedArea.box].x2 += xOffset;
+    }
+    if (clickedArea.pos == 'i' || clickedArea.pos == 'bl' || clickedArea.pos == 'b'  || clickedArea.pos == 'br') {
+      boxes[clickedArea.box].y2 += yOffset; 
+    }
+    redraw();
+  }
 }
 
-// listen for mouse events
-$("#canvas").mousedown(function (e) {
-    handleMouseDown(e);
-    
-});
-$("#canvas").mousemove(function (e) {
-    handleMouseMove(e);
-});
-$("#canvas").mouseup(function (e) {
-    handleMouseUp(e);
-});
-$("#canvas").mouseout(function (e) {
-    handleMouseOut(e);
-});
 
- 
- 
+function redraw() {
+  var context = canvas.getContext('2d');
+  context.clearRect(0, 0, 800, 600);
+  context.beginPath();
+for (var i = 0; i < boxes.length; i++) {
+    drawBoxOn(boxes[i], context);
+}
+  
+  if (clickedArea.box == -1) {
+    tmpBox = newBox(x1, y1, x2, y2);
+    if (tmpBox != null) {
+      drawBoxOn(tmpBox, context);
+    }
+  }
+  
+}
+
+function findCurrentArea(x, y) {
+  for (var i = 0; i < boxes.length; i++) {
+  
+    var box = boxes[i];
+    xCenter = box.x1 + (box.x2 - box.x1) / 2;
+    yCenter = box.y1 + (box.y2 - box.y1) / 2;
+    if (box.x1 - lineOffset <  x && x < box.x1 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y1 + lineOffset) {
+        return {box: i, pos:'tl'};
+      } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
+        return {box: i, pos:'bl'};
+      } else if (yCenter - lineOffset <  y && y < yCenter + lineOffset) {
+        return {box: i, pos:'l'};
+      }
+    } else if (box.x2 - lineOffset < x && x < box.x2 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y1 + lineOffset) {
+        return {box: i, pos:'tr'};
+      } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
+        return {box: i, pos:'br'};
+      } else if (yCenter - lineOffset <  y && y < yCenter + lineOffset) {
+        return {box: i, pos:'r'};
+      }
+    } else if (xCenter - lineOffset <  x && x < xCenter + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y1 + lineOffset) {
+        return {box: i, pos:'t'};
+      } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
+        return {box: i, pos:'b'};
+      } else if (box.y1 - lineOffset <  y && y < box.y2 + lineOffset) {
+        return {box: i, pos:'i'};
+      }
+    } else if (box.x1 - lineOffset <  x && x < box.x2 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y2 + lineOffset) {
+        return {box: i, pos:'i'};
+      }
+    }
+  }
+  
+  return {box: -1, pos:'o'};
+}
+
+function newBox(x1, y1, x2, y2) {
+  boxX1 = x1 < x2 ? x1 : x2;
+  boxY1 = y1 < y2 ? y1 : y2;
+  boxX2 = x1 > x2 ? x1 : x2;
+  boxY2 = y1 > y2 ? y1 : y2;
+  if (boxX2 - boxX1 > lineOffset * 2 && boxY2 - boxY1 > lineOffset * 2) {
+    return {x1: boxX1,
+            y1: boxY1,
+            x2: boxX2,
+            y2: boxY2,
+            lineWidth: 1,
+            color: 'DeepSkyBlue'};
+  } else {
+   
+    return null;
+  }
+}
+
+function drawBoxOn(box, context) {
+  xCenter = box.x1 + (box.x2 - box.x1) / 2;
+  yCenter = box.y1 + (box.y2 - box.y1) / 2;
+  
+  context.strokeStyle = box.color;
+  context.fillStyle = box.color;
+
+  context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
+  
+  context.lineWidth = box.lineWidth;
+  context.stroke();
+
+  context.fillRect(box.x1 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x1 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x1 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x2 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+}
