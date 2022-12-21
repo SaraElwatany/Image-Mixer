@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import functions
+import json
 # import sys, asyncio
 
 # if sys.platform == "win32" and (3, 8, 0) <= sys.version_info < (3, 9, 0):
@@ -18,6 +19,24 @@ app = Flask(__name__)
 def index():
     message = "Hello to test page"
     return render_template("Mixture.html" , msg = message)
+
+
+
+@app.route('/test', methods=['POST'])
+def test():
+    output = request.get_json()
+    print(output)                   # This is the output that was stored in the JSON within the browser
+    print(type(output))
+    result = json.loads(output)         #this converts the json output to a python dictionary
+    print(result)                       # Printing the new dictionary
+    print(type(result))                #this shows the json converted as a python dictionary
+    indx1= list(result.keys())[0]
+    indx2= list(result.keys())[1]
+    indx3= list(result.keys())[2]
+    indx4= list(result.keys())[3]
+    functions.cut('static/Images/sky.jpg',result.get(indx1), result.get(indx2), result.get(indx3), result.get(indx4))
+    return result
+
 
 
 @app.route('/imageMixing')
