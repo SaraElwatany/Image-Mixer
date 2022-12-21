@@ -58,13 +58,13 @@ canvas.onmousemove = function(e) {
     }
     redraw();
   }
-    
+   
     x = x1;
     y = y1;
     w= width;
     h= height;
 
-    const dict_values = {x, y2,x2,y}            //Pass the javascript variables to a dictionary.
+    const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
     const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
     //console.log(s);                         // Prints the variables to console window, which are in the JSON format
     $.ajax({
