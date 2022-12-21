@@ -16,6 +16,14 @@ def imageFourier(file):
     return img , f , magnitude_spectrum , phase_spectrum
 
 
+def cut(path,x,y,w,h):
+    location= (x,y,w,h)
+    img= Image.open(path)
+    imgcropped= img.crop(box= (x,y,w,h))
+    imgcropped.save('static/Images/cropped.jpg')
+    imgc, f, mag, phase= imageFourier('static/Images/cropped.jpg')
+    #img.paste(imgcropped, location)
+
 
 
 def plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a ,img_b , magnitude_spectrum_b , phase_spectrum_b):
