@@ -4,47 +4,126 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mixture</title>
+    <title>Image Mixer</title>
     <link rel="stylesheet" href="../static/Style Sheet/style.css" />
     <script src="../static/java script/jquery-3.6.2.min.js"></script>
+    <script src="https://use.fontawesome.com/3a2eaf6206.js"></script>
+
+
   </head>
 
   <body>
-      
+    <!-- <div class="title" >Image Mixer</div> -->
+    <div class="container">
+      <div class="gallery">
+        <figure class="gallery__item gallery__item--0">
+          <div>Image 1</div>
+        </figure>
+          <figure class="gallery__item gallery__item--0_1">
+            <!-- <div class="upload">
+              <label for="inputTag">
+                Upload an Image <br/>
+                <i class="fa fa-2x fa-camera"></i>
+
+                <input id="inputTag" type="file"/>
+                <br/>
+                <span id="imageName"></span>
+              </label>
+            </div> -->
+        </figure>
+        <figure class="gallery__item gallery__item--0_0">
+          <select id="selectbox" data-selected="">
+            <option value="1">Phase</option>
+            <option value="2">Magnitude</option>
+          </select>
+        </figure>
+          <figure class="gallery__item gallery__item--1">
+              <img src="static\Images\image2.png" alt="Gallery image 1" class="gallery__img">
+          </figure>
+          <figure class="gallery__item gallery__item--2">
+              <img src="static\Images\image2.png" alt="Gallery image 2" class="gallery__img">
+          </figure>
+
+
+
+
+          <figure class="gallery__item gallery__item--3_0">
+            <div>Image Mixer</div>
+          </figure>
+          <figure class="gallery__item gallery__item--3">
+          <select id="selectbox" data-selected="">
+            <option value="1">Ocean Wall</option>
+            <option value="2">Skate Park</option>
+            <option value="3">Mountain View</option>
+
+          </select>
+            </figure>
+
+
+
+
+          <figure class="gallery__item gallery__item--8">
+            <div>Image 2</div>
+          </figure>
+          <figure class="gallery__item gallery__item--8_0">
+            <select id="selectbox" data-selected="">
+              <option value="1">Phase</option>
+              <option value="2">Magnitude</option>
+            </select>
+          </figure>
+          <figure class="gallery__item gallery__item--4">
+              <img src="static\Images\image2.png" alt="Gallery image 4" class="gallery__img">
+          </figure>
+          <figure class="gallery__item gallery__item--7">
+            <img src="static\Images\image2.png" alt="Gallery image 4" class="gallery__img">
+        </figure>
+        <figure class="gallery__item gallery__item--6_0">
+          <div>Output Image</div>
+        </figure>
+          <figure class="gallery__item gallery__item--6">
+              <img src="static\Images\image2.png" alt="Gallery image 6" class="gallery__img">
+          </figure>
+      </div>
+  </div>
+
+
+
     <!-- <canvas id="canvas" width=500 height=500   style="background: url('../static/Images/sky.jpg')"></canvas> -->
-    <canvas id="canvas" width=500 height=500  ></canvas>
+    <!-- <canvas id="canvas" width=500 height=500  ></canvas> -->
 
 
 
-
-    <div class="out">
+<!-- <div class="'sec">
       <form action="/imageMixing">
         <button type="submit" value="Start" name="Begin"></button>
       </form>
-      <div class="borderI">
-        <div class="cont-col">
-                <img src="static\img\image1.png" class="img img1">
-                <img src="static\img\magnitude1.png" class="img img1">
-                <img src="static\img\phase1.png" class="img img1">
-                <img src="static\img\image2.png" class="img img1">
-                <img src="static\img\magnitude2.png" class="img img1">
-                <img src="static\img\phase2.png" class="img img1">
-                <img src="static\img\output.png" class="img img1">
+      <div class="left_sec">
+
+                <img src="static\Images\image1.png" class="img img1">
+           
+                <img src="static\Images\magnitude1.png" class="img img1">
+                <img src="static\Images\phase1.png" class="img img1">
+                <img src="static\Images\image2.png" class="img img1">
+                <img src="static\Images\magnitude2.png" class="img img1">
+                <img src="static\Images\phase2.png" class="img img1">
+                <img src="static\Images\output.png" class="img img1">
+        </div>
+   
+
+        <div class="righ_sec">
+          <div>
+          <img src="static\Images\phase1.png" class="img img1">
+        </div>
+
         </div>
       </div>
-    </div>
-
-
-
-
-
-
-    <script src="../static/java script/main.js"></script>
-   
-        
-    
       
     
-  </body>
+  <script src="../static/java script/main.js"></script>
 
+    
+  </body> -->
+  <script src="../static/java script/main.js"></script>
+
+</body>
 </html>
