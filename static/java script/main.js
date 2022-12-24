@@ -1,5 +1,7 @@
 var canvas = document.getElementById("canvas");
-
+var context = canvas.getContext('2d');
+let newImage = new Image();
+newImage.src =  "../static/Images/image2.png"
 var lineOffset = 4;
 var anchrSize = 2;
 var mousedown = false;
@@ -10,6 +12,9 @@ var x2 = -1;
 var y2 = -1;
 var boxes = [];
 var tmpBox = null;
+window.onload = function() {
+ context.drawImage(newImage, 0, 0, 250, 200);
+};
 
 canvas.onmousedown = function(e) {
   mousedown = true; 
@@ -18,8 +23,10 @@ canvas.onmousedown = function(e) {
   y1 = e.offsetY;
   x2 = e.offsetX;
   y2 = e.offsetY;
+ 
 };
 canvas.onmouseup = function(e) {
+  
 	if (clickedArea.box == -1 && tmpBox != null) {
      boxes.push(tmpBox);
     } 
@@ -28,9 +35,11 @@ canvas.onmouseup = function(e) {
   tmpBox = null;
   mousedown = false;
   console.log(boxes);
+  
 };
 
 canvas.onmousemove = function(e) {
+
   if (mousedown && clickedArea.box == -1) {
     x2 = e.offsetX;
     y2 = e.offsetY;
@@ -38,7 +47,7 @@ canvas.onmousemove = function(e) {
     redraw();
    }
    else if (mousedown && clickedArea.box != -1) {
-    
+ 
     x2 = e.offsetX;
     y2 = e.offsetY;
     xOffset = x2 - x1;
@@ -47,6 +56,8 @@ canvas.onmousemove = function(e) {
     y1 = y2;
     if (clickedArea.pos == 'i'  || clickedArea.pos == 'tl' || clickedArea.pos == 'l'  ||    clickedArea.pos == 'bl') {
       boxes[clickedArea.box].x1 += xOffset;
+      
+    
     }
     if (clickedArea.pos == 'i'  ||clickedArea.pos == 'tl' ||clickedArea.pos == 't'  ||   clickedArea.pos == 'tr') {
       boxes[clickedArea.box].y1 += yOffset;
@@ -63,11 +74,14 @@ canvas.onmousemove = function(e) {
 
 
 function redraw() {
-  var context = canvas.getContext('2d');
+ 
+//  var context = canvas.getContext('2d');
+
   context.clearRect(0, 0, 800, 600);
   context.beginPath();
 for (var i = 0; i < boxes.length; i++) {
     drawBoxOn(boxes[i], context);
+   
 }
   
   if (clickedArea.box == -1) {
@@ -76,13 +90,15 @@ for (var i = 0; i < boxes.length; i++) {
       drawBoxOn(tmpBox, context);
     }
   }
-  
+ 
 }
 
 
+   
 function findCurrentArea(x, y) {
-  for (var i = 0; i < boxes.length; i++) {
   
+  for (var i = 0; i < boxes.length; i++) {
+   
     var box = boxes[i];
     xCenter = box.x1 + (box.x2 - box.x1) / 2;
     yCenter = box.y1 + (box.y2 - box.y1) / 2;
@@ -121,24 +137,30 @@ function findCurrentArea(x, y) {
 }
 
 function newBox(x1, y1, x2, y2) {
+  context.drawImage(newImage, 0, 0, 250, 200); // make image when click
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
   boxY2 = y1 > y2 ? y1 : y2;
   if (boxX2 - boxX1 > lineOffset * 2 && boxY2 - boxY1 > lineOffset * 2) {
+   
     return {x1: boxX1,
             y1: boxY1,
             x2: boxX2,
             y2: boxY2,
             lineWidth: 1,
             color: 'DeepSkyBlue'};
-  } else {
    
+            
+  } 
+  else {
     return null;
   }
+ 
 }
 
 function drawBoxOn(box, context) {
+  context.drawImage(newImage, 0, 0, 250, 200);
   xCenter = box.x1 + (box.x2 - box.x1) / 2;
   yCenter = box.y1 + (box.y2 - box.y1) / 2;
   
@@ -159,19 +181,22 @@ function drawBoxOn(box, context) {
   context.fillRect(box.x2 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+
+ 
 	
-  x= box.x1;
-  y= box.y1;
-  f= box.x2;
-  g= box.y2;
-  const dict_values = {x , y, f, g}          //Pass the javascript variables to a dictionary.
-  const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
-  //console.log(s);                         // Prints the variables to console window, which are in the JSON format
-  $.ajax({
-  url:"/test",
-  type:"POST",
-  contentType: "application/json",
-  data: JSON.stringify(s)});
-  boxes.pop(tmpBox);	
+  // x= box.x1;
+  // y= box.y1;
+  // f= box.x2;
+  // g= box.y2;
+  // const dict_values = {x , y, f, g}          //Pass the javascript variables to a dictionary.
+  // const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  // //console.log(s);                         // Prints the variables to console window, which are in the JSON format
+  // $.ajax({
+  // url:"/test",
+  // type:"POST",
+  // contentType: "application/json",
+  // data: JSON.stringify(s)});
+  // boxes.pop(tmpBox);	
+
 	
 }

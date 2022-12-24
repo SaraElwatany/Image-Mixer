@@ -1,5 +1,7 @@
 var canvas1 = document.getElementById("canvas1");
-
+var context1 = canvas1.getContext('2d');
+let newImage1 = new Image();
+newImage1.src =  "../static/Images/image2.png"
 var lineOffset = 4;
 var anchrSize = 2;
 var mousedown = false;
@@ -10,7 +12,11 @@ var x2 = -1;
 var y2 = -1;
 var boxes1 = [];
 var tmpBox1 = null;
+window.onload = function() {
+    context1.drawImage(newImage1, 0, 0, 250, 200);
+   };
 
+  
 canvas1.onmousedown = function(e) {
   mousedown = true; 
   clickedArea1 = findCurrentArea1(e.offsetX, e.offsetY);
@@ -62,8 +68,7 @@ canvas1.onmousemove = function(e) {
    
     x = x1;
     y = y1;
-    w= width;
-    h= height;
+   
 
     const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
     const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
@@ -78,7 +83,7 @@ canvas1.onmousemove = function(e) {
 
 function redraw1() {
   var context = canvas1.getContext('2d');
-  context.clearRect(0, 0, 800, 600);
+  context.clearRect(0, 0,250, 200);
   context.beginPath();
 for (var i = 0; i < boxes1.length; i++) {
     drawBoxOn1(boxes1[i], context);
@@ -135,6 +140,7 @@ function findCurrentArea1(x, y) {
 }
 
 function newBox1(x1, y1, x2, y2) {
+  context1.drawImage(newImage1, 0, 0, 250, 200);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -153,6 +159,7 @@ function newBox1(x1, y1, x2, y2) {
 }
 
 function drawBoxOn1(box, context) {
+  context1.drawImage(newImage1, 0, 0, 250, 200);
   xCenter = box.x1 + (box.x2 - box.x1) / 2;
   yCenter = box.y1 + (box.y2 - box.y1) / 2;
   
