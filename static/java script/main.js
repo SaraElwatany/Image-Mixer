@@ -59,20 +59,6 @@ canvas.onmousemove = function(e) {
     }
     redraw();
   }
-   
-    x = x1;
-    y = y1;
-    w= width;
-    h= height;
-
-    const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
-    const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
-    //console.log(s);                         // Prints the variables to console window, which are in the JSON format
-    $.ajax({
-    url:"/test",
-    type:"POST",
-    contentType: "application/json",
-    data: JSON.stringify(s)});
 }
 
 
@@ -173,4 +159,19 @@ function drawBoxOn(box, context) {
   context.fillRect(box.x2 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+	
+  x= box.x1;
+  y= box.y1;
+  f= box.x2;
+  g= box.y2;
+  const dict_values = {x , y, f, g}          //Pass the javascript variables to a dictionary.
+  const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  //console.log(s);                         // Prints the variables to console window, which are in the JSON format
+  $.ajax({
+  url:"/test",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(s)});
+  boxes.pop(tmpBox);	
+	
 }
