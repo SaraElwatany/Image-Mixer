@@ -13,7 +13,7 @@ var y2 = -1;
 var boxes = [];
 var tmpBox = null;
 window.onload = function() {
- context.drawImage(newImage, 0, 0, 250, 200);
+ context.drawImage(newImage, 0, 0, 440, 230);
 };
 
 canvas.onmousedown = function(e) {
@@ -137,7 +137,7 @@ function findCurrentArea(x, y) {
 }
 
 function newBox(x1, y1, x2, y2) {
-  context.drawImage(newImage, 0, 0, 250, 200); // make image when click
+  context.drawImage(newImage, 0, 0, 440, 230); // make image when click
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -160,7 +160,7 @@ function newBox(x1, y1, x2, y2) {
 }
 
 function drawBoxOn(box, context) {
-  context.drawImage(newImage, 0, 0, 250, 200);
+  context.drawImage(newImage, 0, 0, 440, 230);
   xCenter = box.x1 + (box.x2 - box.x1) / 2;
   yCenter = box.y1 + (box.y2 - box.y1) / 2;
   

@@ -13,7 +13,7 @@ var y2 = -1;
 var boxes1 = [];
 var tmpBox1 = null;
 window.onload = function() {
-    context1.drawImage(newImage1, 0, 0, 250, 200);
+    context1.drawImage(newImage1, 0, 0, 440, 230);
     
    };
 
@@ -71,14 +71,14 @@ canvas1.onmousemove = function(e) {
     y = y1;
    
 
-    const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
-    const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
-    //console.log(s);                         // Prints the variables to console window, which are in the JSON format
-    $.ajax({
-    url:"/test",
-    type:"POST",
-    contentType: "application/json",
-    data: JSON.stringify(s)});
+    // const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
+    // const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+    // //console.log(s);                         // Prints the variables to console window, which are in the JSON format
+    // $.ajax({
+    // url:"/test",
+    // type:"POST",
+    // contentType: "application/json",
+    // data: JSON.stringify(s)});
 }
 
 
@@ -141,7 +141,7 @@ function findCurrentArea1(x, y) {
 }
 
 function newBox1(x1, y1, x2, y2) {
-  context1.drawImage(newImage1, 0, 0, 250, 200);
+  context1.drawImage(newImage1, 0, 0, 440, 230);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -160,7 +160,7 @@ function newBox1(x1, y1, x2, y2) {
 }
 
 function drawBoxOn1(box, context) {
-  context1.drawImage(newImage1, 0, 0, 250, 200);
+  context1.drawImage(newImage1, 0, 0, 440, 230);
   xCenter = box.x1 + (box.x2 - box.x1) / 2;
   yCenter = box.y1 + (box.y2 - box.y1) / 2;
   
