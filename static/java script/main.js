@@ -1,4 +1,5 @@
 var canvas = document.getElementById("canvas");
+
 var lineOffset = 4;
 var anchrSize = 2;
 var mousedown = false;
@@ -91,6 +92,7 @@ for (var i = 0; i < boxes.length; i++) {
   }
   
 }
+
 
 function findCurrentArea(x, y) {
   for (var i = 0; i < boxes.length; i++) {
