@@ -14,6 +14,7 @@ var boxes1 = [];
 var tmpBox1 = null;
 window.onload = function() {
     context1.drawImage(newImage1, 0, 0, 250, 200);
+    
    };
 
   
