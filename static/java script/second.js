@@ -3,69 +3,69 @@ var canvas1 = document.getElementById("canvas1");
 var lineOffset = 4;
 var anchrSize = 2;
 var mousedown = false;
-var clickedArea = {box: -1, pos:'o'};
-var x3 = -1;
-var y3 = -1;
-var x4 = -1;
-var y4 = -1;
-var boxes = [];
-var tmpBox = null;
+var clickedArea1 = {box: -1, pos:'o'};
+var x1 = -1;
+var y1 = -1;
+var x2 = -1;
+var y2 = -1;
+var boxes1 = [];
+var tmpBox1 = null;
 
 canvas1.onmousedown = function(e) {
   mousedown = true; 
-  clickedArea = findCurrentArea(e.offsetX, e.offsetY);
-  x3 = e.offsetX;
-  y3 = e.offsetY;
-  x4 = e.offsetX;
-  y4 = e.offsetY;
+  clickedArea1 = findCurrentArea1(e.offsetX, e.offsetY);
+  x1 = e.offsetX;
+  y1 = e.offsetY;
+  x2 = e.offsetX;
+  y2 = e.offsetY;
 };
 canvas1.onmouseup = function(e) {
-	if (clickedArea.box == -1 && tmpBox != null) {
-     boxes.push(tmpBox);
+	if (clickedArea1.box == -1 && tmpBox1 != null) {
+     boxes1.push(tmpBox1);
     } 
   
-  clickedArea = {box: -1, pos:'o'};
-  tmpBox = null;
+  clickedArea1 = {box: -1, pos:'o'};
+  tmpBox1 = null;
   mousedown = false;
-  console.log(boxes);
+  console.log(boxes1);
 };
 
 canvas1.onmousemove = function(e) {
-  if (mousedown && clickedArea.box == -1) {
-    x3 = e.offsetX;
-    y3 = e.offsetY;
-    boxes.pop(tmpBox);
-    redraw();
+  if (mousedown && clickedArea1.box == -1) {
+    x2 = e.offsetX;
+    y2 = e.offsetY;
+    boxes1.pop(tmpBox1);
+    redraw1();
    }
-   else if (mousedown && clickedArea.box != -1) {
+   else if (mousedown && clickedArea1.box != -1) {
     
-    x3 = e.offsetX;
-    y3 = e.offsetY;
-    xOffset = x4 - x3;
-    yOffset = y4 - y3;
-    x3 = x4;
-    y3 = y4;
-    if (clickedArea.pos == 'i'  || clickedArea.pos == 'tl' || clickedArea.pos == 'l'  ||    clickedArea.pos == 'bl') {
-      boxes[clickedArea.box].x3 += xOffset;
+    x2 = e.offsetX;
+    y2 = e.offsetY;
+    xOffset = x2 - x1;
+    yOffset = y2 - y1;
+    x1 = x2;
+    y1 = y2;
+    if (clickedArea1.pos == 'i'  || clickedArea1.pos == 'tl' || clickedArea1.pos == 'l'  ||    clickedArea1.pos == 'bl') {
+      boxes1[clickedArea1.box].x1 += xOffset;
     }
-    if (clickedArea.pos == 'i'  ||clickedArea.pos == 'tl' ||clickedArea.pos == 't'  ||   clickedArea.pos == 'tr') {
-      boxes[clickedArea.box].y3 += yOffset;
+    if (clickedArea1.pos == 'i'  ||clickedArea1.pos == 'tl' ||clickedArea1.pos == 't'  ||   clickedArea1.pos == 'tr') {
+      boxes1[clickedArea1.box].y1 += yOffset;
     }
-    if (clickedArea.pos == 'i'  || clickedArea.pos == 'tr' || clickedArea.pos == 'r'  ||clickedArea.pos == 'br') {
-      boxes[clickedArea.box].x4 += xOffset;
+    if (clickedArea1.pos == 'i'  || clickedArea1.pos == 'tr' || clickedArea1.pos == 'r'  ||clickedArea1.pos == 'br') {
+      boxes1[clickedArea1.box].x2 += xOffset;
     }
-    if (clickedArea.pos == 'i' || clickedArea.pos == 'bl' || clickedArea.pos == 'b'  || clickedArea.pos == 'br') {
-      boxes[clickedArea.box].y4 += yOffset; 
+    if (clickedArea1.pos == 'i' || clickedArea1.pos == 'bl' || clickedArea1.pos == 'b'  || clickedArea1.pos == 'br') {
+      boxes1[clickedArea1.box].y2 += yOffset; 
     }
-    redraw();
+    redraw1();
   }
    
-    x = x3;
-    y = y3;
+    x = x1;
+    y = y1;
     w= width;
     h= height;
 
-    const dict_values = {x3, y3, x4, y4}            //Pass the javascript variables to a dictionary.
+    const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
     const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
     //console.log(s);                         // Prints the variables to console window, which are in the JSON format
     $.ajax({
@@ -76,56 +76,56 @@ canvas1.onmousemove = function(e) {
 }
 
 
-function redraw() {
-  var context1 = canvas1.getContext('2d');
-  context1.clearRect(0, 0, 800, 600);
-  context1.beginPath();
-for (var i = 0; i < boxes.length; i++) {
-    drawBoxOn(boxes[i], context1);
+function redraw1() {
+  var context = canvas1.getContext('2d');
+  context.clearRect(0, 0, 800, 600);
+  context.beginPath();
+for (var i = 0; i < boxes1.length; i++) {
+    drawBoxOn1(boxes1[i], context);
 }
   
-  if (clickedArea.box == -1) {
-    tmpBox = newBox(x3, y3, x4, y4);
-    if (tmpBox != null) {
-      drawBoxOn(tmpBox, context1);
+  if (clickedArea1.box == -1) {
+    tmpBox1 = newBox1(x1, y1, x2, y2);
+    if (tmpBox1 != null) {
+      drawBoxOn1(tmpBox1, context);
     }
   }
   
 }
 
 
-function findCurrentArea(x, y) {
-  for (var i = 0; i < boxes.length; i++) {
+function findCurrentArea1(x, y) {
+  for (var i = 0; i < boxes1.length; i++) {
   
-    var box = boxes[i];
-    xCenter = box.x3 + (box.x4 - box.x3) / 2;
-    yCenter = box.y3 + (box.y4 - box.y3) / 2;
-    if (box.x3 - lineOffset <  x && x < box.x3 + lineOffset) {
-      if (box.y3 - lineOffset <  y && y < box.y3 + lineOffset) {
+    var box = boxes1[i];
+    xCenter = box.x1 + (box.x2 - box.x1) / 2;
+    yCenter = box.y1 + (box.y2 - box.y1) / 2;
+    if (box.x1 - lineOffset <  x && x < box.x1 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y1 + lineOffset) {
         return {box: i, pos:'tl'};
-      } else if (box.y4 - lineOffset <  y && y < box.y4 + lineOffset) {
+      } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'bl'};
       } else if (yCenter - lineOffset <  y && y < yCenter + lineOffset) {
         return {box: i, pos:'l'};
       }
-    } else if (box.x4 - lineOffset < x && x < box.x4 + lineOffset) {
-      if (box.y3 - lineOffset <  y && y < box.y3 + lineOffset) {
+    } else if (box.x2 - lineOffset < x && x < box.x2 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y1 + lineOffset) {
         return {box: i, pos:'tr'};
-      } else if (box.y4 - lineOffset <  y && y < box.y4 + lineOffset) {
+      } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'br'};
       } else if (yCenter - lineOffset <  y && y < yCenter + lineOffset) {
         return {box: i, pos:'r'};
       }
     } else if (xCenter - lineOffset <  x && x < xCenter + lineOffset) {
-      if (box.y3 - lineOffset <  y && y < box.y3 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y1 + lineOffset) {
         return {box: i, pos:'t'};
-      } else if (box.y4 - lineOffset <  y && y < box.y4 + lineOffset) {
+      } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'b'};
-      } else if (box.y3 - lineOffset <  y && y < box.y4 + lineOffset) {
+      } else if (box.y1 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'i'};
       }
-    } else if (box.x3 - lineOffset <  x && x < box.x4 + lineOffset) {
-      if (box.y3 - lineOffset <  y && y < box.y4 + lineOffset) {
+    } else if (box.x1 - lineOffset <  x && x < box.x2 + lineOffset) {
+      if (box.y1 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'i'};
       }
     }
@@ -134,16 +134,16 @@ function findCurrentArea(x, y) {
   return {box: -1, pos:'o'};
 }
 
-function newBox(x3, y3, x4, y4) {
-  boxx3 = x3 < x4 ? x3 : x4;
-  boxy3 = y3 < y4 ? y3 : y4;
-  boxx4 = x3 > x4 ? x3 : x4;
-  boxy4 = y3 > y4 ? y3 : y4;
-  if (boxx4 - boxx3 > lineOffset * 2 && boxy4 - boxy3 > lineOffset * 2) {
-    return {x3: boxx3,
-            y3: boxy3,
-            x4: boxx4,
-            y4: boxy4,
+function newBox1(x1, y1, x2, y2) {
+  boxX1 = x1 < x2 ? x1 : x2;
+  boxY1 = y1 < y2 ? y1 : y2;
+  boxX2 = x1 > x2 ? x1 : x2;
+  boxY2 = y1 > y2 ? y1 : y2;
+  if (boxX2 - boxX1 > lineOffset * 2 && boxY2 - boxY1 > lineOffset * 2) {
+    return {x1: boxX1,
+            y1: boxY1,
+            x2: boxX2,
+            y2: boxY2,
             lineWidth: 1,
             color: 'DeepSkyBlue'};
   } else {
@@ -152,25 +152,25 @@ function newBox(x3, y3, x4, y4) {
   }
 }
 
-function drawBoxOn(box, context1) {
-  xCenter = box.x3 + (box.x4 - box.x3) / 2;
-  yCenter = box.y3 + (box.y4 - box.y3) / 2;
+function drawBoxOn1(box, context) {
+  xCenter = box.x1 + (box.x2 - box.x1) / 2;
+  yCenter = box.y1 + (box.y2 - box.y1) / 2;
   
-  context1.strokeStyle = box.color;
-  context1.fillStyle = box.color;
+  context.strokeStyle = box.color;
+  context.fillStyle = box.color;
 
-  context1.rect(box.x3, box.y3, (box.x4 - box.x3), (box.y4 - box.y3));
+  context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
   
-  context1.lineWidth = box.lineWidth;
-  context1.stroke();
+  context.lineWidth = box.lineWidth;
+  context.stroke();
 
-  context1.fillRect(box.x3 - anchrSize, box.y3 - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(box.x3 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(box.x3 - anchrSize, box.y4 - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(xCenter - anchrSize, box.y3 - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(xCenter - anchrSize, box.y4 - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(box.x4 - anchrSize, box.y3 - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(box.x4 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context1.fillRect(box.x4 - anchrSize, box.y4 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x1 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x1 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x1 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x2 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
 }
