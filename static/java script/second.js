@@ -25,6 +25,20 @@ canvas1.onmousedown = function(e) {
   y1 = e.offsetY;
   x2 = e.offsetX;
   y2 = e.offsetY;
+
+
+
+  h= x1;
+  i= y1;
+  j= x2;
+  k= y2;
+  const dict_values = {h , i, j, k}          //Pass the javascript variables to a dictionary.
+  const s1 = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/test2",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(s1)});
 };
 canvas1.onmouseup = function(e) {
 	if (clickedArea1.box == -1 && tmpBox1 != null) {
@@ -67,18 +81,6 @@ canvas1.onmousemove = function(e) {
     redraw1();
   }
    
-    x = x1;
-    y = y1;
-   
-
-    // const dict_values = {x1, y1, x2, y2}            //Pass the javascript variables to a dictionary.
-    // const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
-    // //console.log(s);                         // Prints the variables to console window, which are in the JSON format
-    // $.ajax({
-    // url:"/test",
-    // type:"POST",
-    // contentType: "application/json",
-    // data: JSON.stringify(s)});
 }
 
 
@@ -141,6 +143,23 @@ function findCurrentArea1(x, y) {
 }
 
 function newBox1(x1, y1, x2, y2) {
+
+  h= x1;
+  i= y1;
+  j= x2;
+  k= y2;
+  const dict_values = {h , i, j, k}          //Pass the javascript variables to a dictionary.
+  const s1 = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/test2",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(s1)});
+
+
+
+
+
   context1.drawImage(newImage1, 0, 0, 440, 230);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
@@ -181,4 +200,17 @@ function drawBoxOn1(box, context) {
   context.fillRect(box.x2 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+
+
+  h= box.x1;
+  i= box.y1;
+  j= box.x2;
+  k= box.y2;
+  const dict_values = {h , i, j, k}          //Pass the javascript variables to a dictionary.
+  const s1 = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/test2",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(s1)});
 }
