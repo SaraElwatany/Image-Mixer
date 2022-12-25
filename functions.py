@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
+from PIL import Image
 
 
 def imageFourier(file):
@@ -16,12 +17,12 @@ def imageFourier(file):
     return img , f , magnitude_spectrum , phase_spectrum
 
 
-def cut(path,x,y,w,h):
+def cut(path,x,y,w,h,image):
     location= (x,y,w,h)
     img= Image.open(path)
     imgcropped= img.crop(box= (x,y,w,h))
-    imgcropped.save('static/Images/cropped.jpg')
-    imgc, f, mag, phase= imageFourier('static/Images/cropped.jpg')
+    imgcropped.save(f'static/Images/cropped{image}.jpg')
+    #imgc, f, mag, phase= imageFourier('static/Images/cropped.jpg')
     #img.paste(imgcropped, location)
 
 
