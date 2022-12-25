@@ -51,12 +51,12 @@
 
 }
 
-.gallery__item--1 {
+/* .gallery__item--1 {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 5;
-}
+} */
 
 .gallery__item--2 {
     grid-column-start: 3;
@@ -189,7 +189,7 @@ grid-row-end: 9;
     visibility: hidden;
   }
   .custom-file-input::before {
-    content: 'Upload Images';
+    content: 'Choose Files';
     color: black;
     display: inline-block;
     background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);

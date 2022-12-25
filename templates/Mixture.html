@@ -19,7 +19,16 @@
           <div>Image 1</div>
         </figure>
           <figure class="gallery__item gallery__item--0_1">
-            <input type="file" class="custom-file-input">
+            <form method="POST" action="/" enctype="multipart/form-data">
+              <dl>
+                  <p>
+                    <input type="file" name="files[]" multiple="true" class="custom-file-input" autocomplete="off" required>                
+                  </p>
+              </dl>
+              <p>
+                <input type="submit" value="Upload" class="btn btn-info">
+              </p>
+          </form>
         </figure>
         <figure class="gallery__item gallery__item--0_0">
           <select id="selectbox" data-selected="">
@@ -29,7 +38,7 @@
         </figure>
           <figure class="gallery__item gallery__item--1">
             
-              <img src="../static\Images\image2.png" alt="Gallery image 1" class="gallery__img">
+              <img src="../static\Images\image1.png" alt="Gallery image 1" class="gallery__img">
           </figure>
           <figure class="gallery__item gallery__item--2">
             <canvas id="canvas" width=440 height=230   ></canvas>
@@ -54,7 +63,16 @@
 
 
             <figure class="gallery__item gallery__item--8_1">
-              <input type="file" class="custom-file-input">
+              <!-- <form method="post" action="/" enctype="multipart/form-data">
+                <dl>
+                    <p>
+                        <input type="file" value="Choose file" name="image_b" class="custom-file-input" autocomplete="off" required>
+                    </p>
+                </dl>
+                <p>
+                    <input type="submit" value="Upload" class="btn btn-info">
+                </p>
+            </form> -->
             </figure>
           <figure class="gallery__item gallery__item--8">
             <div>Image 2</div>
@@ -76,7 +94,7 @@
           <div>Output Image</div>
         </figure>
           <figure class="gallery__item gallery__item--6">
-              <img src="../static\Images\image2.png" alt="Gallery image 6" class="gallery__img">
+              <img src="../static\Images\output.png" alt="Gallery image 6" class="gallery__img">
           </figure>
       </div>
   </div>

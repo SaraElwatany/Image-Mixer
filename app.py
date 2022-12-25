@@ -1,24 +1,88 @@
-from flask import Flask, render_template, request
+from flask import Flask , flash, request, redirect, url_for, render_template
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import functions
 import json
-# import sys, asyncio
-
-# if sys.platform == "win32" and (3, 8, 0) <= sys.version_info < (3, 9, 0):
-#     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+import urllib.request
+import os
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
 
+UPLOAD_FOLDER = 'static/Images/'
+ 
+app.secret_key = "secret key"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+ 
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+ 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+     
+ 
+@app.route('/')
+def home():
+    return render_template('Mixture.html')
 
 
 
-@app.route("/")
-def index():
-    message = "Hello to test page"
-    return render_template("Mixture.html" , msg = message)
+@app.route('/', methods=['POST'])
+def upload_image():
+    if 'files[]' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    files = request.files.getlist('files[]')
+    file_names = []
+    for file in files:
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_names.append(filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        else:
+            flash('Allowed image types are -> png, jpg, jpeg, gif')
+            return redirect(request.url)
+ 
+    img_a , freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[0]))
+    img_b , freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[1]))
+
+    functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
+
+    
+
+    combined = np.multiply(np.abs(freq_a), np.exp(1j*np.angle(freq_b)))
+    imgCombined = np.real(np.fft.ifft2(combined))
+
+    plt.imsave('static\Images\output.png',imgCombined, cmap='gray')
+
+
+    return render_template('Mixture.html')
+
+
+
+# @app.route('/')
+# def imageMixing():
+
+
+
+#     img_a , freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier("static\Images\moonknight1.jpg")
+#     img_b , freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier("static\Images\\train.jpg")
+    
+
+    
+#     functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
+
+
+#     # combined = np.multiply(np.abs(freq_a), np.exp(1j*np.angle(freq_b)))
+#     # imgCombined = np.real(np.fft.ifft2(combined))
+
+#     # plt.imsave('static\Images\output.png',imgCombined, cmap='gray')
+
+
+
+#     return render_template("Mixture.html")
 
 
 
@@ -37,31 +101,6 @@ def test():
     functions.cut('static/Images/sky.jpg',result.get(indx1), result.get(indx2), result.get(indx3), result.get(indx4))
     return result
 
-
-
-@app.route('/imageMixing')
-def imageMixing():
-
-    img_a , freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier("moonknight1.jpg")
-    img_b , freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier("train.jpg")
-    
-
-    # print(np.shape(freq_a))
-    # print(np.shape(freq_b))
-
-
-    
-    functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
-
-
-    combined = np.multiply(np.abs(freq_a), np.exp(1j*np.angle(freq_b)))
-    imgCombined = np.real(np.fft.ifft2(combined))
-
-    plt.imsave('D:\Edu\DSP\Tasks\Task4\DSP_Task_4\static\Images\output.png',imgCombined, cmap='gray')
-
-
-
-    return render_template("Mixture.html")
 
 
 
