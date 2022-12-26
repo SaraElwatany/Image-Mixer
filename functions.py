@@ -22,13 +22,14 @@ def imageFourier(img):
     return f , magnitude_spectrum , phase_spectrum
 
 
-def cut(path,x,y,w,h,image):
-    location= (x,y,w,h)
-    img= Image.open(path)
-    imgcropped= img.crop(box= (x,y,w,h))
-    imgcropped.save(f'static/Images/cropped{image}.jpg')
-    #imgc, f, mag, phase= imageFourier('static/Images/cropped.jpg')
-    #img.paste(imgcropped, location)
+
+def mask(image,imageno,type,x1,y1,x2,y2):
+    img = cv2.imread(image, 0)
+    shape= np.shape(img)
+    x= np.zeros(shape, dtype='uint8')
+    x= cv2.rectangle(x, (x1,y1), (x2,y2),(255,255,255),-1)
+    imgcropped= cv2.bitwise_and(img,img,mask=x)
+    imgcropped.save(f'static/Images/masked{type}{imageno}.jpg')
 
 
 
