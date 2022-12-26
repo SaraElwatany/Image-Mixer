@@ -133,7 +133,7 @@ def combination_cropped(option1, option2):
 
     return render_template("Mixture.html")
 
-
+   
 
 
 if __name__ == '__main__':
