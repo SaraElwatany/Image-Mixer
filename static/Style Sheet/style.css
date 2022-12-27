@@ -51,12 +51,12 @@
 
 }
 
-/* .gallery__item--1 {
+.gallery__item--1 {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 5;
-} */
+}
 
 .gallery__item--2 {
     grid-column-start: 3;
@@ -96,6 +96,7 @@
   grid-row-start:5;
   grid-row-end: 8;
   font-size: 37px;
+  z-index: 999;
 
 }
 .gallery__item--8_0 {
@@ -163,11 +164,11 @@ grid-row-end: 9;
 
   }
 
-
+/* 
   .upload{
     text-align:center;
     padding:3%;
-    /* border:thin solid black; */
+    border:thin solid black;
   }
 
   .upload input{
@@ -178,12 +179,14 @@ grid-row-end: 9;
   }
   #imageName{
     color:green;
-  }
+  } */
 
 
 
   .custom-file-input {
     color: transparent;
+    z-index: 999;
+
   }
   .custom-file-input::-webkit-file-upload-button {
     visibility: hidden;

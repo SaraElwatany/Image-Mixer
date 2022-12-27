@@ -20,14 +20,10 @@
         </figure>
           <figure class="gallery__item gallery__item--0_1">
             <form method="post" action="/" enctype="multipart/form-data">
-              <dl>
-                  <p>
-                    <input type="file" name="files[]" multiple="true" class="custom-file-input" autocomplete="off" required>                
-                  </p>
-              </dl>
-              <p>
+                    <input type="file" name="'img1"  class="custom-file-input" onchange="this.parentElement.submit()">                
+              <!-- <p>
                 <input type="submit" value="Upload" class="btn btn-info">
-              </p>
+              </p> -->
           </form>
         </figure>
         <figure class="gallery__item gallery__item--0_0">
@@ -38,7 +34,7 @@
         </figure>
           <figure class="gallery__item gallery__item--1">
             
-              <img src="../static\Images\image1.png" alt="Gallery image 1" class="gallery__img">
+              <img  id="btn" src="../static\Images\image1.png" alt="Gallery image 1" class="gallery__img">
           </figure>
           <figure class="gallery__item gallery__item--2">
             <canvas id="canvas" width=440 height=230   ></canvas>
@@ -63,16 +59,10 @@
 
 
             <figure class="gallery__item gallery__item--8_1">
-              <!-- <form method="post" action="/" enctype="multipart/form-data">
-                <dl>
-                    <p>
-                        <input type="file" value="Choose file" name="image_b" class="custom-file-input" autocomplete="off" required>
-                    </p>
-                </dl>
-                <p>
-                    <input type="submit" value="Upload" class="btn btn-info">
-                </p>
-            </form> -->
+              <form method="post" action="/" enctype="multipart/form-data" >
+                       <!-- <input type="file" name="files[]" multiple="true" class="custom-file-input" autocomplete="off" required  onchange="readURL2(this);"> -->
+                       <input type="file" name="'img2" class="custom-file-input" onchange="this.parentElement.submit()">
+              </form>
             </figure>
           <figure class="gallery__item gallery__item--8">
             <div>Image 2</div>
@@ -84,7 +74,7 @@
             </select>
           </figure>
           <figure class="gallery__item gallery__item--4">
-              <img src="../static\Images\image2.png" alt="Gallery image 4" class="gallery__img">
+              <img id="btn2" src="../static\Images\image2.png" alt="Gallery image 4" class="gallery__img">
           </figure>
           <figure class="gallery__item gallery__item--7">
             <canvas id="canvas1" width=440 height=230  ></canvas>

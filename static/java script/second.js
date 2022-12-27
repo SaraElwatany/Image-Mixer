@@ -17,8 +17,7 @@ window.onload = function() {
     
    };
 
-  
-canvas1.onmousedown = function(e) {
+   canvas1.onmousedown = function(e) {
   mousedown = true; 
   clickedArea1 = findCurrentArea1(e.offsetX, e.offsetY);
   x1 = e.offsetX;
@@ -214,3 +213,21 @@ function drawBoxOn1(box, context) {
   contentType: "application/json",
   data: JSON.stringify(s1)});
 }
+
+
+function readURL() {
+  // if (input.files && input.files[0]) {
+  //     var reader = new FileReader();
+
+  //     reader.onload = function (e) {
+  //         $(`#${btn}`)
+  //             .attr('src', e.target.result);
+  //     };
+
+  //     reader.readAsDataURL(input.files[0]);
+  // }
+  var form = document.getElementById('form1');
+  form.submit();
+}
+
+
