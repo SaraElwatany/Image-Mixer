@@ -30,54 +30,60 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 imgs = ['static\Images\image1.png' , 'static\Images\image2.png']
 
+
 @app.route('/', methods= ['GET','POST'])
 
 def upload_image():
-    if request.method == 'POST' :
 
-        
+    option = 0
+
+    if request.method == 'POST' :
+   
         img1 = request.files['img1']
         img2 = request.files['img2']
+        option = request.form.get('selectbox')
+        print(img1)
+        print(img2)
+        print(option)
+
         if img1:
             filename = secure_filename(img1.filename)
             img1.save(os.path.join(UPLOAD_FOLDER,filename))
             imgs[0]=os.path.join(UPLOAD_FOLDER, filename)
-    
-        
+
         if img2:
             filename = secure_filename(img2.filename)
             img2.save(os.path.join(UPLOAD_FOLDER,filename))
             imgs[1]=os.path.join(UPLOAD_FOLDER, filename)
-
+        
+        
+         
    
-        # for file in files:
-        #     if file and allowed_file(file.filename):
-        #         filename = secure_filename(file.filename)
-        #         file_names.append(filename)
-        #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #     else:
-        #         flash('Allowed image types are -> png, jpg, jpeg, gif')
-        #         return redirect(request.url)
- 
-        # img_a = functions.readImage(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[0]))
-        # img_b = functions.readImage(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[1]))
+    img_a = functions.readImage(imgs[0])
+    img_b = functions.readImage(imgs[1])
+    print(img_a)
+    print(img_b)
 
-        # freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(img=img_a)
-        # freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(img=img_b)
+    if np.size(img_b) != np.size(img_a) :
+        new_height, new_width = np.shape(img_a)
+        img_b = cv2.resize(img_b, dsize=[new_width,new_height])
+        # freq_b = np.fft.fft2(img_b)
 
-        # functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
+    freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(img=img_a)
+    freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(img=img_b)
 
-        # if np.size(img_b) != np.size(img_a) :
-        #     new_height, new_width = np.shape(img_a)
-        #     img_b = cv2.resize(img_b, dsize=[new_width,new_height])
-        #     freq_b = np.fft.fft2(img_b)
+    functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
+
+    if option == 1:
+        functions.combined(freq_mag=freq_b,freq_phase=freq_a)
+    elif option == 2:
+        functions.combined(freq_mag=freq_a,freq_phase=freq_b)
+    else:
+        functions.combined(freq_mag=freq_b,freq_phase=freq_a)
+        
 
 
-        # combined = np.multiply(np.abs(freq_a), np.exp(1j*np.angle(freq_b)))
-        # imgCombined = np.real(np.fft.ifft2(combined))
-
-        # plt.imsave('static\Images\output.png',imgCombined, cmap='gray')
-        return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )
+        # return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )
 
 
     return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )

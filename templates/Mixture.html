@@ -54,12 +54,19 @@
             <div>Image Mixer</div>
           </figure>
           <figure class="gallery__item gallery__item--3">
-          <select id="selectbox" data-selected="">
-            <option value="1">Phase 1 & Magnitude 2</option>
-            <option value="2">Phase 2 & Magnitude 1</option>
-
-          </select>
-            </figure>
+            <form action="/" method="post" enctype="multipart/form-data">
+              <select id="selectbox" name="selectbox"  onclick="selectOption()">
+                <option value="1" selected>Phase 1 & Magnitude 2</option>
+                <option value="2">Phase 2 & Magnitude 1</option>
+              </select>
+              <script>
+                selectOption()
+                function selectOption(){
+                    let Option = document.getElementById('selectbox').value
+                }
+                </script>
+            </form>
+          </figure>
 
 
 
@@ -75,12 +82,12 @@
           <figure class="gallery__item gallery__item--8">
             <div>Image 2</div>
           </figure>
-          <figure class="gallery__item gallery__item--8_0">
+          <!-- <figure class="gallery__item gallery__item--8_0">
             <select id="selectbox" data-selected="">
               <option value="1">Phase</option>
               <option value="2">Magnitude</option>
             </select>
-          </figure>
+          </figure> -->
           <figure class="gallery__item gallery__item--4">
               <img id="btn2" src="{{img2}}" alt="Gallery image 4" class="gallery__img">
 
