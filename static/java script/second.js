@@ -12,10 +12,8 @@ var x2 = -1;
 var y2 = -1;
 var boxes1 = [];
 var tmpBox1 = null;
-window.onload = function() {
-    context1.drawImage(newImage1, 0, 0, 440, 230);
-    
-   };
+
+   
 
    canvas1.onmousedown = function(e) {
   mousedown = true; 
@@ -54,7 +52,7 @@ canvas1.onmousemove = function(e) {
   if (mousedown && clickedArea1.box == -1) {
     x2 = e.offsetX;
     y2 = e.offsetY;
-    boxes1.pop(tmpBox1);
+    // boxes1.pop(tmpBox1);
     redraw1();
    }
    else if (mousedown && clickedArea1.box != -1) {
