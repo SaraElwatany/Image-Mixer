@@ -6,6 +6,8 @@ import functions
 import json
 import urllib.request
 import os
+import base64
+
 from werkzeug.utils import secure_filename
 
 
@@ -20,52 +22,65 @@ fourier2= []
 UPLOAD_FOLDER = 'static/Images/'
  
 app.secret_key = "secret key"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
  
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+imgs = ['static\Images\image1.png' , 'static\Images\image2.png']
 
 @app.route('/', methods= ['GET','POST'])
+
 def upload_image():
     if request.method == 'POST' :
-        if 'files[]' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        files = request.files.getlist('files[]')
-        file_names = []
-        for file in files:
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file_names.append(filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            else:
-                flash('Allowed image types are -> png, jpg, jpeg, gif')
-                return redirect(request.url)
+
+        
+        img1 = request.files['img1']
+        img2 = request.files['img2']
+        if img1:
+            filename = secure_filename(img1.filename)
+            img1.save(os.path.join(UPLOAD_FOLDER,filename))
+            imgs[0]=os.path.join(UPLOAD_FOLDER, filename)
+    
+        
+        if img2:
+            filename = secure_filename(img2.filename)
+            img2.save(os.path.join(UPLOAD_FOLDER,filename))
+            imgs[1]=os.path.join(UPLOAD_FOLDER, filename)
+
+   
+        # for file in files:
+        #     if file and allowed_file(file.filename):
+        #         filename = secure_filename(file.filename)
+        #         file_names.append(filename)
+        #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #     else:
+        #         flash('Allowed image types are -> png, jpg, jpeg, gif')
+        #         return redirect(request.url)
  
-        img_a = functions.readImage(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[0]))
-        img_b = functions.readImage(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[1]))
+        # img_a = functions.readImage(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[0]))
+        # img_b = functions.readImage(file=os.path.join(app.config['UPLOAD_FOLDER'],file_names[1]))
 
-        freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(img=img_a)
-        freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(img=img_b)
+        # freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(img=img_a)
+        # freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(img=img_b)
 
-        functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
+        # functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
 
-        if np.size(img_b) != np.size(img_a) :
-            new_height, new_width = np.shape(img_a)
-            img_b = cv2.resize(img_b, dsize=[new_width,new_height])
-            freq_b = np.fft.fft2(img_b)
-
-
-        combined = np.multiply(np.abs(freq_a), np.exp(1j*np.angle(freq_b)))
-        imgCombined = np.real(np.fft.ifft2(combined))
-
-        plt.imsave('static\Images\output.png',imgCombined, cmap='gray')
+        # if np.size(img_b) != np.size(img_a) :
+        #     new_height, new_width = np.shape(img_a)
+        #     img_b = cv2.resize(img_b, dsize=[new_width,new_height])
+        #     freq_b = np.fft.fft2(img_b)
 
 
-    return render_template('Mixture.html')
+        # combined = np.multiply(np.abs(freq_a), np.exp(1j*np.angle(freq_b)))
+        # imgCombined = np.real(np.fft.ifft2(combined))
+
+        # plt.imsave('static\Images\output.png',imgCombined, cmap='gray')
+        return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )
+
+
+    return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )
 
    
 
@@ -133,8 +148,7 @@ def combination_cropped(option1, option2):
 
     return render_template("Mixture.html")
 
-   
-
+  
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

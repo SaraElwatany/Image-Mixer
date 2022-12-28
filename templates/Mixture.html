@@ -7,6 +7,8 @@
     <title>Image Mixer</title>
     <link rel="stylesheet" href="../static/Style Sheet/style.css" />
     <script src="../static/java script/jquery-3.6.2.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
     <!-- <script src="https://use.fontawesome.com/3a2eaf6206.js"></script> -->
 
 
@@ -19,16 +21,14 @@
           <div>Image 1</div>
         </figure>
           <figure class="gallery__item gallery__item--0_1">
-         
-          <div class = "form-group">
-            <input type="file" id="file-input1" class="custom-file-input"  required accept="image/">
-           
-        </div>
-        <!-- <div class = "box-2">
-          <div class= "result"> </div>
-          <div class= "result2"> </div>
-           <img src="  " alt="User Image" id="User-img" class=" result3 hide" style="display: none;"> -->
-      <!-- </div>  -->
+            <form method="post" action="/"  enctype="multipart/form-data">
+                    <input type="file" name="img1"  class="custom-file-input" onchange="this.parentElement.submit()"> 
+                    <input type="file" name="img2" class="custom-file-input" onchange="this.parentElement.submit()" style="display:none;">                
+              <!-- <p>
+                <input type="submit" value="Upload" class="btn btn-info">
+              </p> -->
+          </form>
+
         </figure>
         <figure class="gallery__item gallery__item--0_0">
           <select id="selectbox" data-selected="">
@@ -37,10 +37,10 @@
           </select>
         </figure>
           <figure class="gallery__item gallery__item--1">
+            {% if img1 %}
+              <img  id="btn" src="{{img1}}" alt="Gallery image 1" class="gallery__img">
+              {% endif %}
 
-            <div class= "result" id="gallery__img"> 
-            <img src="  " alt="User Image" id="User-img" class=" result3 hide" style="display: none;"></div>
-           
           </figure>
           <figure class="gallery__item gallery__item--2">
             <canvas id="canvas" width=440 height=230   ></canvas>
@@ -55,9 +55,8 @@
           </figure>
           <figure class="gallery__item gallery__item--3">
           <select id="selectbox" data-selected="">
-            <option value="1">Ocean Wall</option>
-            <option value="2">Skate Park</option>
-            <option value="3">Mountain View</option>
+            <option value="1">Phase 1 & Magnitude 2</option>
+            <option value="2">Phase 2 & Magnitude 1</option>
 
           </select>
             </figure>
@@ -65,7 +64,13 @@
 
 
             <figure class="gallery__item gallery__item--8_1">
-              <input type="file" id="file-input2" class="custom-file-input"  required accept="image/"> 
+
+              <form method="post" action="/" enctype="multipart/form-data" >
+                       <!-- <input type="file" name="files[]" multiple="true" class="custom-file-input" autocomplete="off" required  onchange="readURL2(this);"> -->
+                       <input type="file" name="img2" class="custom-file-input" onchange="this.parentElement.submit()">
+                       <input type="file" name="img1" class="custom-file-input" onchange="this.parentElement.submit()" style="display:none;">
+              </form>
+
             </figure>
           <figure class="gallery__item gallery__item--8">
             <div>Image 2</div>
@@ -77,7 +82,8 @@
             </select>
           </figure>
           <figure class="gallery__item gallery__item--4">
-            <div class= "result2" id="gallery__img"> </div>
+              <img id="btn2" src="{{img2}}" alt="Gallery image 4" class="gallery__img">
+
           </figure>
           <figure class="gallery__item gallery__item--7">
             <canvas id="canvas1" width=440 height=230  ></canvas>
