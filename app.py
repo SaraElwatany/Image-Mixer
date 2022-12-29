@@ -13,11 +13,6 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-dimensions1=[]
-dimensions2=[]
-fourier1= []
-fourier2= []
-
 
 UPLOAD_FOLDER = 'static/Images/'
  
@@ -90,69 +85,97 @@ def upload_image():
 
    
 
+
 @app.route('/test', methods=['POST'])
 def test():
     output = request.get_json()
     #print(output)                   # This is the output that was stored in the JSON within the browser
     result = json.loads(output)         #this converts the json output to a python dictionary
-    dimensions1= result
-    print("1: ", result)                       # Printing the new dictionary
+    no_boxes= list(result.keys())[0]
+    indx1= list(result.keys())[1]
+    indx2= list(result.keys())[2]
+    indx3= list(result.keys())[3]
+    indx4= list(result.keys())[4]    
+    #print("1: ", result)                       # Printing the new dictionary
     #print(type(result))                #this shows the json converted as a python dictionary
-    return result
+    img1 , fourier1 , mag1 , phase1 = functions.imageFourier("image1.png")
+    functions.plotspectrums(img1 , mag1 , phase1 , 1)   
+    #phase1= functions.readImage("static\Images\phase1.png")
+    #magnitude1= functions.readImage("static\Images\magnitude1.png")
+    if no_boxes== 1:
+        functions.mask("phase1.png",1,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        functions.mask("magnitude1.png",1,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
 
+    elif no_boxes== 2:
+        functions.mask("phase1.png",1,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        functions.mask("magnitude1.png",1,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        functions.mask("phase1.png",2,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        functions.mask("magnitude1.png",2,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        phas1= functions.readImage("1phase1.png")
+        phas2= functions.readImage("2phase1.png")
+        phase_anded= cv2.bitwise_and(phas1,phas2)
+        phase_anded.save(f'static/Images/"phase1_and"')
+        phase_ored= cv2.bitwise_or(phas1,phas2)
+        phase_ored.save(f'static/Images/"phase1_or"')
+        magnitude1= functions.readImage("1magnitude1.png")
+        magnitude2= functions.readImage("2magnitude1.png")
+        magnitude_anded= cv2.bitwise_and(magnitude1,magnitude2)
+        magnitude_anded.save(f'static/Images/"magnitude1_and"')
+        magnitude_ored= cv2.bitwise_or(magnitude1,magnitude2)
+        magnitude_ored.save(f'static/Images/"magnitude1_or"')
+    
+    elif no_boxes==0:
+        functions.uniform_mask("phase1.png",1,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        functions.uniform_mask("magnitude1.png",1,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+
+    return result
+   
+   
+   
    
 
 @app.route('/test2', methods=['POST'])
 def test2():
     output = request.get_json()
-    result = json.loads(output)         #this converts the json output to a python dictionary
-    dimensions2= result
-    print("2: ", result)                       # Printing the new dictionary
-    print(type(result))                #this shows the json converted as a python dictionary
-    return result
-
-
-
-@app.route('/imageMixing')
-def combination_cropped(option1, option2):
-    indx1= list(dimensions1.keys())[0]
-    indx2= list(dimensions1.keys())[1]
-    indx3= list(dimensions1.keys())[2]
-    indx4= list(dimensions1.keys())[3]
-
-    pos1= list(dimensions1.keys())[0]
-    pos2= list(dimensions1.keys())[1]
-    pos3= list(dimensions1.keys())[2]
-    pos4= list(dimensions1.keys())[3]
-    img1 , fourier1 , mag1 , phase1 = functions.imageFourier("image1.png")
+    result2 = json.loads(output)         #this converts the json output to a python dictionary
+    #print("2: ", result2)                       # Printing the new dictionary
+    #print(type(result2))                #this shows the json converted as a python dictionary
+    no_boxes= list(result2.keys())[0]
+    indx1= list(result2.keys())[1]
+    indx2= list(result2.keys())[2]
+    indx3= list(result2.keys())[3]
+    indx4= list(result2.keys())[4]
     img2 , fourier2 , mag2 , phase2 = functions.imageFourier("image2.png")
-    functions.plotspectrums(img1 , mag1 , phase1, img2, mag2 , phase2)
- 
-    if option1== True:                    # first Phase and second mag    
-        functions.mask("phase1.png",1,"phase",dimensions1.get(indx1),dimensions1.get(indx2),dimensions1.get(indx3),dimensions1.get(indx4))
-        functions.mask("magnitude2.png",2,"magnitude",dimensions2.get(pos1),dimensions2.get(pos2),dimensions2.get(pos3),dimensions2.get(pos4))
-        crop1 , four_crop1 , mag_crop1 , phase_crop1 = functions.imageFourier("maskedphase1.jpg")
-        crop2 , four_crop2 , mag_crop2 , phase_crop2 = functions.imageFourier("maskedmagnitude2.jpg")
+    functions.plotspectrums(img2, mag2 , phase2, 2)
+    if no_boxes== 1:
+        functions.mask("phase2.png",1,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+        functions.mask("magnitude2.png",1,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+
+    elif no_boxes== 2:
+        functions.mask("phase2.png",1,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+        functions.mask("magnitude2.png",1,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+        functions.mask("phase2.png",2,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+        functions.mask("magnitude2.png",2,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+        phas1= functions.readImage("1phase2.png")
+        phas2= functions.readImage("2phase2.png")
+        phase_anded= cv2.bitwise_and(phas1,phas2)
+        phase_anded.save(f'static/Images/"phase2_and"')
+        phase_ored= cv2.bitwise_or(phas1,phas2)
+        phase_ored.save(f'static/Images/"phase2_or"')
+        magnitude1= functions.readImage("1magnitude2.png")
+        magnitude2= functions.readImage("2magnitude2.png")
+        magnitude_anded= cv2.bitwise_and(magnitude1,magnitude2)
+        magnitude_anded.save(f'static/Images/"magnitude2_and"')
+        magnitude_ored= cv2.bitwise_or(magnitude1,magnitude2)
+        magnitude_ored.save(f'static/Images/"magnitude2_or"')
+    
+    elif no_boxes==0:
+        functions.uniform_mask("phase2.png",1,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+        functions.uniform_mask("magnitude2.png",1,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
+
+    return result2
 
 
-        combined = np.multiply(np.abs(four_crop2), np.exp(1j*np.angle(four_crop1)))
-        imgCombined = np.real(np.fft.ifft2(combined))
-        plt.imsave('Images\output_cropped.png',imgCombined, cmap='gray')
-        
-
-    elif option2== True:                    # first mag and second phase
-        functions.mask("magnitude1.png",1,"magnitude",dimensions1.get(indx1),dimensions1.get(indx2),dimensions1.get(indx3),dimensions1.get(indx4))
-        functions.mask("phase2.png",2,"phase",dimensions2.get(pos1),dimensions2.get(pos2),dimensions2.get(pos3),dimensions2.get(pos4))
-        crop1 , four_crop1 , mag_crop1 , phase_crop1 = functions.imageFourier("maskedmagnitude1.jpg")
-        crop2 , four_crop2 , mag_crop2 , phase_crop2 = functions.imageFourier("maskedphase2.jpg")
-
-
-        combined = np.multiply(np.abs(four_crop1), np.exp(1j*np.angle(four_crop2)))
-        imgCombined = np.real(np.fft.ifft2(combined))
-        plt.imsave('Images\output_cropped.png',imgCombined, cmap='gray')
-
-
-    return render_template("Mixture.html")
 
   
 
