@@ -1,9 +1,9 @@
 var canvas1 = document.getElementById("canvas1");
 var context1 = canvas1.getContext('2d');
-let newImage1 = new Image();
-newImage1.src =  "../static/Images/image2.png"
+// let newImage1 = new Image();
+// newImage1.src =  "../static/Images/image2.png"
 var lineOffset = 4;
-var anchrSize = 2;
+var anchrSize = 3;
 var mousedown = false;
 var clickedArea1 = {box: -1, pos:'o'};
 var x1 = -1;
@@ -50,6 +50,9 @@ canvas1.onmouseup = function(e) {
 
 canvas1.onmousemove = function(e) {
   if (mousedown && clickedArea1.box == -1) {
+    if(boxes1.length>1){
+      boxes1.pop(tmpBox1);
+    }
     x2 = e.offsetX;
     y2 = e.offsetY;
     // boxes1.pop(tmpBox1);
@@ -83,7 +86,7 @@ canvas1.onmousemove = function(e) {
 
 function redraw1() {
   var context = canvas1.getContext('2d');
-  context.clearRect(0, 0,250, 200);
+  context.clearRect(0, 0,440, 230);
   context.beginPath();
 for (var i = 0; i < boxes1.length; i++) {
     drawBoxOn1(boxes1[i], context);
@@ -127,11 +130,13 @@ function findCurrentArea1(x, y) {
       } else if (box.y2 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'b'};
       } else if (box.y1 - lineOffset <  y && y < box.y2 + lineOffset) {
-        return {box: i, pos:'i'};
+        boxes1.pop(boxes1[0]);
+        // boxes1.pop(boxes1[1]);
       }
     } else if (box.x1 - lineOffset <  x && x < box.x2 + lineOffset) {
       if (box.y1 - lineOffset <  y && y < box.y2 + lineOffset) {
         return {box: i, pos:'i'};
+     
       }
     }
   }
@@ -154,10 +159,6 @@ function newBox1(x1, y1, x2, y2) {
   data: JSON.stringify(s1)});
 
 
-
-
-
-  context1.drawImage(newImage1, 0, 0, 440, 230);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -176,27 +177,30 @@ function newBox1(x1, y1, x2, y2) {
 }
 
 function drawBoxOn1(box, context) {
-  context1.drawImage(newImage1, 0, 0, 440, 230);
-  xCenter = box.x1 + (box.x2 - box.x1) / 2;
-  yCenter = box.y1 + (box.y2 - box.y1) / 2;
-  
   context.strokeStyle = box.color;
   context.fillStyle = box.color;
-
-  context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
-  
   context.lineWidth = box.lineWidth;
+  context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
+ 
   context.stroke();
+  
 
+  
+  // for (var j = 0; j < boxes1.length; j++) {
+    
+    // var box = boxes1[j];
+    xCenter = box.x1 + (box.x2 - box.x1) / 2;
+    yCenter = box.y1 + (box.y2 - box.y1) / 2;
   context.fillRect(box.x1 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x1 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x1 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(xCenter - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
-  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(xCenter - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillStyle="red";
+  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
 
 
   h= box.x1;
@@ -210,20 +214,11 @@ function drawBoxOn1(box, context) {
   type:"POST",
   contentType: "application/json",
   data: JSON.stringify(s1)});
+// }
 }
 
 
 function readURL() {
-  // if (input.files && input.files[0]) {
-  //     var reader = new FileReader();
-
-  //     reader.onload = function (e) {
-  //         $(`#${btn}`)
-  //             .attr('src', e.target.result);
-  //     };
-
-  //     reader.readAsDataURL(input.files[0]);
-  // }
   var form = document.getElementById('form1');
   form.submit();
 }
