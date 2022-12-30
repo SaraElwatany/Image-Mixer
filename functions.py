@@ -47,7 +47,7 @@ def uniform_mask(image,imageno,type,x1,y1,x2,y2):
 
     
     
-def plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a ,number):  
+def plotspectrums(magnitude_spectrum_a , phase_spectrum_a ,number):  
     plt.imsave(f'static\Images\magnitude{number}.png' ,magnitude_spectrum_a ,cmap = 'gray' )
     plt.imsave(f'static\Images\phase{number}.png',phase_spectrum_a ,cmap = 'gray' )
     # plt.imsave( 'static\Images\image1.png',img_a ,cmap = 'gray' )

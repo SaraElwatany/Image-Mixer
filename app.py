@@ -24,22 +24,24 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 imgs = ['static\Images\image1.png' , 'static\Images\image2.png']
-
+options = ["A","B"]
 
 @app.route('/', methods= ['GET','POST'])
 
 def upload_image():
 
-    option = 0
+    print(request.method)
 
     if request.method == 'POST' :
    
-        img1 = request.files['img1']
-        img2 = request.files['img2']
-        option = request.form.get('selectbox')
+        options[0] = request.form.get('1')
+        options[1] = request.form.get('2')
+        img1 = request.files.get('img1')
+        img2 = request.files.get('img2')
         print(img1)
         print(img2)
-        print(option)
+        print(options[0])
+        print(options[1])
 
         if img1:
             filename = secure_filename(img1.filename)
@@ -50,9 +52,7 @@ def upload_image():
             filename = secure_filename(img2.filename)
             img2.save(os.path.join(UPLOAD_FOLDER,filename))
             imgs[1]=os.path.join(UPLOAD_FOLDER, filename)
-        
-        
-         
+          
    
     img_a = functions.readImage(imgs[0])
     img_b = functions.readImage(imgs[1])
@@ -62,23 +62,24 @@ def upload_image():
     if np.size(img_b) != np.size(img_a) :
         new_height, new_width = np.shape(img_a)
         img_b = cv2.resize(img_b, dsize=[new_width,new_height])
-        # freq_b = np.fft.fft2(img_b)
+
 
     freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(img=img_a)
     freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(img=img_b)
 
-    functions.plotspectrums(img_a , magnitude_spectrum_a , phase_spectrum_a , img_b , magnitude_spectrum_b , phase_spectrum_b)
+    functions.plotspectrums(magnitude_spectrum_a , phase_spectrum_a ,1)
+    functions.plotspectrums(magnitude_spectrum_b , phase_spectrum_b ,2)
 
-    if option == 1:
+    if options[0] == "Phase1 & Magnitude2":
         functions.combined(freq_mag=freq_b,freq_phase=freq_a)
-    elif option == 2:
+        print("Phase1Magnitude2")
+    elif options[1] == "Phase2 & Magnitude1":
         functions.combined(freq_mag=freq_a,freq_phase=freq_b)
+        print("Phase2Magnitude1")
     else:
         functions.combined(freq_mag=freq_b,freq_phase=freq_a)
+        print("defaultChoice")
         
-
-
-        # return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )
 
 
     return render_template('Mixture.html' , img1=imgs[0] , img2=imgs[1] )
