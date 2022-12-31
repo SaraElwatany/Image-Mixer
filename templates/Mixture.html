@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Mixer</title>
     <link rel="stylesheet" href="../static/Style Sheet/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="../static/java script/jquery-3.6.2.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 
     <!-- <script src="https://use.fontawesome.com/3a2eaf6206.js"></script> -->
 
@@ -24,9 +26,7 @@
             <form method="post" action="/"  enctype="multipart/form-data">
                     <input type="file" name="img1"  class="custom-file-input" onchange="this.parentElement.submit()"> 
                     <input type="file" name="img2" class="custom-file-input" onchange="this.parentElement.submit()" style="display:none;">                
-              <!-- <p>
-                <input type="submit" value="Upload" class="btn btn-info">
-              </p> -->
+        
           </form>
 
         </figure>
@@ -36,6 +36,20 @@
             <option value="2">Magnitude</option>
           </select>
         </figure>
+        <figure class="gallery__item gallery__item--0_2">
+          <div class="buttons">
+          <button class="rounded-button" type="button">
+            <i class="fa-regular fa-object-ungroup"
+            style="font-size:25px;"></i>
+            </button>
+            <button class="rounded-button" type="button">
+              <i class="fa-regular fa-object-group"
+                            style="font-size:25px;"></i>
+              </button>
+
+              </div>
+        </figure>
+
           <figure class="gallery__item gallery__item--1">
             {% if img1 %}
               <img  id="btn" src="{{img1}}" alt="Gallery image 1" class="gallery__img">
@@ -43,7 +57,8 @@
 
           </figure>
           <figure class="gallery__item gallery__item--2">
-            <canvas id="canvas" width=440 height=230   style="background: url('../static/Images/image1_440x230.png') "  ></canvas>
+
+            <canvas id="canvas" width=400 height=210   style="background: url('../static/Images/image1_440x230.png') "  ></canvas>
               <!-- <img src="../static\Images\image2.png" alt="Gallery image 2" class="gallery__img"> -->
           </figure>
 
@@ -74,18 +89,32 @@
           <figure class="gallery__item gallery__item--8">
             <div>Image 2</div>
           </figure>
-          <!-- <figure class="gallery__item gallery__item--8_0">
+          <figure class="gallery__item gallery__item--8_0">
             <select id="selectbox" data-selected="">
               <option value="1">Phase</option>
               <option value="2">Magnitude</option>
             </select>
-          </figure> -->
+          </figure>
+          <figure class="gallery__item gallery__item--0_9">
+            <div class="buttons">
+            <button class="rounded-button" type="button">
+              <i class="fa-regular fa-object-ungroup"
+              style="font-size:25px;"></i>
+              </button>
+              <button class="rounded-button" type="button">
+                <i class="fa-regular fa-object-group"
+                style="font-size:25px;"></i>
+                </button>
+                </div>
+          </figure>
           <figure class="gallery__item gallery__item--4">
+            
               <img id="btn2" src="{{img2}}" alt="Gallery image 4" class="gallery__img">
 
           </figure>
           <figure class="gallery__item gallery__item--7">
-            <canvas id="canvas1" width=440 height=230  style="background: url('../static/Images/image2_440x230.png') "></canvas>
+
+            <canvas id="canvas1" width=400 height=210  style="background: url('../static/Images/image2_440x230.png') "></canvas>
             <!-- <img src="../static\Images\image2.png" alt="Gallery image 4" class="gallery__img"> -->
         </figure>
         <figure class="gallery__item gallery__item--6_0">

@@ -89,7 +89,7 @@ function redraw() {
 
   // canvas.width = canvas.width;
  var context = document.getElementById("canvas").getContext('2d');
-context.clearRect(0, 0,440, 230);
+context.clearRect(0, 0,400, 210);
   context.beginPath();
 for (var i = 0; i < boxes.length; i++) {
     drawBoxOn(boxes[i], context);

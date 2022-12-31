@@ -86,7 +86,7 @@ canvas1.onmousemove = function(e) {
 
 function redraw1() {
   var context = canvas1.getContext('2d');
-  context.clearRect(0, 0,440, 230);
+  context.clearRect(0, 0,400, 210);
   context.beginPath();
 for (var i = 0; i < boxes1.length; i++) {
     drawBoxOn1(boxes1[i], context);
