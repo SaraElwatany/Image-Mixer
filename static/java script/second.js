@@ -3,6 +3,10 @@ var context1 = canvas1.getContext('2d');
 let newImage1 = new Image();
 newImage1.src =  "../static/Images/phase2.png"
 function mag2(opto2) {
+  for (var i = 0; i < boxes1.length; i++) {
+    boxes1.pop(boxes1[0]);
+    boxes1.pop(boxes1[1]);
+  }
   newImage1.src =  "../static/Images/magnitude2.png"  
   context1.drawImage(newImage1, 0, 0, 400, 210);
 
@@ -16,6 +20,10 @@ function mag2(opto2) {
   data: JSON.stringify(b)});
 }
 function phase2(opto2) {
+  for (var i = 0; i < boxes1.length; i++) {
+    boxes1.pop(boxes1[0]);
+    boxes1.pop(boxes1[1]);
+  }
  newImage1.src =  "../static/Images/phase2.png"  
  context1.drawImage(newImage1, 0, 0, 400, 210);
 
@@ -220,11 +228,12 @@ function drawBoxOn1(box, context) {
   
 
   
-  // for (var j = 0; j < boxes1.length; j++) {
+  for (var j = 0; j < boxes1.length; j++) {
     
-    // var box = boxes1[j];
+    var box = boxes1[j];
     xCenter = box.x1 + (box.x2 - box.x1) / 2;
     yCenter = box.y1 + (box.y2 - box.y1) / 2;
+    context.fillStyle="blue";
   context.fillRect(box.x1 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x1 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x1 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
@@ -234,7 +243,7 @@ function drawBoxOn1(box, context) {
   context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillStyle="red";
-  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);}
 
 
   for (var i = 0; i < boxes1.length; i++) {
