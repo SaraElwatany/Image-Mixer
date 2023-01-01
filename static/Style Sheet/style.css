@@ -206,14 +206,13 @@
     border: none;
     border-radius: 3px;
     padding: 10px 25px;
-
     outline: none;
     white-space: nowrap;
     -webkit-user-select: none;
     cursor: pointer;
-  
     font-size: 15px;
   }
+
 
 
 
@@ -267,7 +266,7 @@
     border: none;
     border-radius: 3px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 20px;
     font-size: 15px;
     margin-top: 20px;
@@ -307,6 +306,10 @@
   flex-direction: row;
   gap:20px;
   margin-top: 10px;
+}
 
-
+.buttons_2{
+  display: flex;
+  flex-direction: row;
+  gap:20px;
 }
