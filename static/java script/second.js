@@ -18,6 +18,11 @@ var x1 = -1;
 var y1 = -1;
 var x2 = -1;
 var y2 = -1;
+var X2= -1;
+var Y2= -1;
+var F2= -1;
+var G2= -1;
+var boxno= -1;
 var boxes1 = [];
 var tmpBox1 = null;
 
@@ -31,19 +36,13 @@ var tmpBox1 = null;
   x2 = e.offsetX;
   y2 = e.offsetY;
 
-
-
-  h= x1;
-  i= y1;
-  j= x2;
-  k= y2;
-  const dict_values = {h , i, j, k}          //Pass the javascript variables to a dictionary.
-  const s1 = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  const dict_values = {boxno, X2 , Y2, F2, G2}          //Pass the javascript variables to a dictionary.
+  const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
   $.ajax({
   url:"/test2",
   type:"POST",
   contentType: "application/json",
-  data: JSON.stringify(s1)});
+  data: JSON.stringify(s)});
 };
 canvas1.onmouseup = function(e) {
 	if (clickedArea1.box == -1 && tmpBox1 != null) {
@@ -54,11 +53,19 @@ canvas1.onmouseup = function(e) {
   tmpBox1 = null;
   mousedown = false;
   console.log(boxes1);
+	
+  const dict_values = {boxno, X2 , Y2, F2, G2}          //Pass the javascript variables to a dictionary.
+  const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/test2",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(s)});
 };
 
 canvas1.onmousemove = function(e) {
   if (mousedown && clickedArea1.box == -1) {
-    if(boxes1.length>1){
+    if(boxes1.length==2){
       boxes1.pop(tmpBox1);
     }
     x2 = e.offsetX;
@@ -89,6 +96,13 @@ canvas1.onmousemove = function(e) {
     redraw1();
   }
    
+  const dict_values = {boxno, X2 , Y2, F2, G2}          //Pass the javascript variables to a dictionary.
+  const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/test2",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(s)}); 
 }
 
 
@@ -106,7 +120,13 @@ for (var i = 0; i < boxes1.length; i++) {
       drawBoxOn1(tmpBox1, context);
     }
   }
-  
+    for (var i = 0; i < boxes1.length; i++) {
+    boxno= i;
+    X1= boxes1[i].x1;
+    Y1= boxes1[i].y1;
+    F1= boxes1[i].x2;
+    G1= boxes1[i].y2;
+    }
 }
 
 
@@ -154,18 +174,6 @@ function findCurrentArea1(x, y) {
 
 function newBox1(x1, y1, x2, y2) {
 
-  h= x1;
-  i= y1;
-  j= x2;
-  k= y2;
-  const dict_values = {h , i, j, k}          //Pass the javascript variables to a dictionary.
-  const s1 = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
-  $.ajax({
-  url:"/test2",
-  type:"POST",
-  contentType: "application/json",
-  data: JSON.stringify(s1)});
-
   context1.drawImage(newImage1, 0, 0, 400, 210);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
@@ -211,18 +219,24 @@ function drawBoxOn1(box, context) {
   context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
 
 
-  h= box.x1;
-  i= box.y1;
-  j= box.x2;
-  k= box.y2;
-  const dict_values = {h , i, j, k}          //Pass the javascript variables to a dictionary.
-  const s1 = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
+  for (var i = 0; i < boxes1.length; i++) {
+    boxno= i;
+    X1= boxes1[i].x1;
+    Y1= boxes1[i].y1;
+    F1= boxes1[i].x2;
+    G1= boxes1[i].y2;
+
+    }
+
+  no_boxes= boxes1.length;
+  const dict_boxes = {no_boxes}          //Pass the javascript variables to a dictionary.
+  const b = JSON.stringify(dict_boxes);      // Stringify converts a JavaScript object or value to a JSON string
   $.ajax({
-  url:"/test2",
+  url:"/boxes2",
   type:"POST",
   contentType: "application/json",
-  data: JSON.stringify(s1)});
-// }
+  data: JSON.stringify(b)});
+
 }
 
 
