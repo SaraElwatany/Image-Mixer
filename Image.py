@@ -89,7 +89,3 @@ class ImageProcessing(Image):
         plt.imsave('static/Images/output.png',imgCombined, cmap='gray')
 
 
-
-        
-
-
