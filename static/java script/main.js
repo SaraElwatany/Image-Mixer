@@ -1,7 +1,22 @@
-var canvas = document.getElementById("canvas");
+
 var context = canvas.getContext('2d');
-let newImage = new Image();
-newImage.src =  "../static/Images/image1.png"
+let newImage = new Image(); 
+newImage.src =  "../static/Images/magnitude1.png"
+window.onload = function() {
+  context.drawImage(newImage, 0, 0, 400, 210);
+  context1.drawImage(newImage1, 0, 0, 400, 210);
+};
+
+function mag1() {
+   newImage.src =  "../static/Images/magnitude1.png"  
+   context.drawImage(newImage, 0, 0, 400, 210);
+}
+function phase1() {
+  newImage.src =  "../static/Images/phase1.png"  
+  context.drawImage(newImage, 0, 0, 400, 210);
+}
+
+
 var lineOffset = 4;
 var anchrSize = 3;
 var mousedown = false;
@@ -25,7 +40,6 @@ var tmpBox = null;
   y2 = e.offsetY;
  
 };
-
 
 
 document.getElementById("canvas").onmouseup = function(e) {
@@ -172,7 +186,7 @@ function newBox(x1, y1, x2, y2,e) {
   type:"POST",
   contentType: "application/json",
   data: JSON.stringify(s)});
-
+  context.drawImage(newImage, 0, 0, 400, 210);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -191,7 +205,7 @@ function newBox(x1, y1, x2, y2,e) {
 }
 
 function drawBoxOn(box, context,e) {
-
+  context.drawImage(newImage, 0, 0, 400, 210);
   context.strokeStyle = box.color;
   context.fillStyle = box.color;
   context.lineWidth = box.lineWidth;
@@ -228,61 +242,4 @@ function drawBoxOn(box, context,e) {
 // }
   	
 
-}
-var img1 = document.getElementById("magPhoto_1");
-var img2 = document.getElementById("phasePhoto_1");
-function inputImg() {
-  // Get the checkbox
-  var checkBox1 = document.getElementsByName("choise1");
-  var checkBox2 = document.getElementsByName("choise2");
-
-  var img1 = document.getElementsByName('canvas');
-  var img2 = document.getElementsByName('canvas1');
-  var out = document.getElementsByName('output');
-  
-
-  // If the checkbox is checked, display the output text
-  if (checkBox1[0].checked == true){
-    checkBox2[1].checked = true;
-  }
-  if (checkBox1[1].checked == true){
-    checkBox2[0].checked = true;
-  }
-
-  if (checkBox1[0].checked == true){
-    img1[0].style.display = "inline";
-  } 
-  else {
-    img1[0].style.display = "none";
-  }
-
-  if (checkBox1[1].checked == true){
-    img1[1].style.display = "inline";
-  } else {
-    img1[1].style.display = "none";
-  }
-
-  if (checkBox2[0].checked == true){
-      img2[0].style.display = "inline";
-    } else {
-      img2[0].style.display = "none";
-  }
-
-  if (checkBox2[1].checked == true){
-    img2[1].style.display = "inline";
-  } else {
-    img2[1].style.display = "none";
-  }
-
-  if (checkBox1[0].checked == true && checkBox2[1].checked == true) {
-      out[1].style.display = 'inline';
-  } else{
-      out[1].style.display = 'none';
-  }
-
-  if (checkBox1[1].checked == true && checkBox2[0].checked == true) {
-      out[0].style.display = 'inline';
-  } else{
-      out[0].style.display = 'none';
-  }
 }

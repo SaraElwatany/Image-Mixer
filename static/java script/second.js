@@ -1,7 +1,15 @@
 var canvas1 = document.getElementById("canvas1");
 var context1 = canvas1.getContext('2d');
-// let newImage1 = new Image();
-// newImage1.src =  "../static/Images/image2.png"
+let newImage1 = new Image();
+newImage1.src =  "../static/Images/phase2.png"
+function mag2() {
+  newImage1.src =  "../static/Images/magnitude2.png"  
+  context1.drawImage(newImage1, 0, 0, 400, 210);
+}
+function phase2() {
+ newImage1.src =  "../static/Images/phase2.png"  
+ context1.drawImage(newImage1, 0, 0, 400, 210);
+}
 var lineOffset = 4;
 var anchrSize = 3;
 var mousedown = false;
@@ -158,7 +166,7 @@ function newBox1(x1, y1, x2, y2) {
   contentType: "application/json",
   data: JSON.stringify(s1)});
 
-
+  context1.drawImage(newImage1, 0, 0, 400, 210);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -181,7 +189,7 @@ function drawBoxOn1(box, context) {
   context.fillStyle = box.color;
   context.lineWidth = box.lineWidth;
   context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
- 
+  context1.drawImage(newImage1, 0, 0, 400, 210);
   context.stroke();
   
 
