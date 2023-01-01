@@ -16,7 +16,14 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static/Images/'
  
 app.secret_key = "secret key"
-
+no_boxes1= 0 
+no_boxes2= 0
+img1_box1= dict()
+img1_box2= dict()
+img2_box1= dict()
+img2_box2= dict()
+result= dict()
+result2= dict()
  
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
  
