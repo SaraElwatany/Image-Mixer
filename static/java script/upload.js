@@ -75,4 +75,3 @@ upload2.addEventListener('change' , (e) => {
     
     })
 
-
