@@ -7,13 +7,31 @@ window.onload = function() {
   context1.drawImage(newImage1, 0, 0, 400, 210);
 };
 
-function mag1() {
+function mag1(opto1) {
    newImage.src =  "../static/Images/magnitude1.png"  
    context.drawImage(newImage, 0, 0, 400, 210);
+   
+   n1= opto1;
+   const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
+   const b = JSON.stringify(dict_boxe);      // Stringify converts a JavaScript object or value to a JSON string
+   $.ajax({
+   url:"/opt1",
+   type:"POST",
+   contentType: "application/json",
+   data: JSON.stringify(b)});
 }
-function phase1() {
+function phase1(opto1) {
   newImage.src =  "../static/Images/phase1.png"  
   context.drawImage(newImage, 0, 0, 400, 210);
+
+  n1= opto1;
+  const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
+  const b = JSON.stringify(dict_boxe);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/opt1",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(b)});
 }
 
 
