@@ -116,14 +116,14 @@ def test():
         img1_indx3= list(result.keys())[3]
         img1_indx4= list(result.keys())[4]
         box_no= result.get(box_no_indx)
+        if box_no==0:
+          img1_box1= result 
+        elif box_no==1:
+          img1_box2= result 
     output = request.get_json()
     result = json.loads(output)         #this converts the json output to a python dictionary
     #print("Result: ", result) 
     #print("Box Number: ", box_no)
-    if box_no==0:
-        img1_box1= result 
-    elif box_no==1:
-        img1_box2= result 
     if option1== "1":
         if no_boxes1==2:
             print(value1)
@@ -186,13 +186,12 @@ def test2():
         img2_indx3= list(result2.keys())[3]
         img2_indx4= list(result2.keys())[4]
         box_no= result2.get(box_no_indx)
+        if box_no==0:
+            img2_box1= result2 
+        elif box_no==1:
+            img2_box2= result2
     output = request.get_json()
     result2 = json.loads(output)         #this converts the json output to a python dictionary
-    #print("Box Number: ", box_no)
-    if box_no==0:
-         img2_box1= result2 
-    elif box_no==1:
-        img2_box2= result2
     if option2== "1":
         if no_boxes2==2:
             print(value1)
