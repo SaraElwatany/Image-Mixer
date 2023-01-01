@@ -4,11 +4,16 @@ var context = canvas.getContext('2d');
 let newImage = new Image(); 
 newImage.src =  "../static/Images/magnitude1.png"
 window.onload = function() {
+
   context.drawImage(newImage, 0, 0, 400, 210);
   context1.drawImage(newImage1, 0, 0, 400, 210);
 };
 
 function mag1(opto1) {
+  for (var i = 0; i < boxes.length; i++) {
+    boxes.pop(boxes[0]);
+    boxes.pop(boxes[1]);
+  }
    newImage.src =  "../static/Images/magnitude1.png"  
    context.drawImage(newImage, 0, 0, 400, 210);
    
@@ -23,6 +28,10 @@ function mag1(opto1) {
 }
 
 function phase1(opto1) {
+  for (var i = 0; i < boxes.length; i++) {
+    boxes.pop(boxes[0]);
+    boxes.pop(boxes[1]);
+  }
   newImage.src =  "../static/Images/phase1.png"  
   context.drawImage(newImage, 0, 0, 400, 210);
 
@@ -259,12 +268,13 @@ function drawBoxOn(box, context,e) {
   context.lineWidth = box.lineWidth;
   context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
   context.stroke();
-  // for (var i = 0; i < boxes.length; i++) {
+  for (var i = 0; i < boxes.length; i++) {
    
-    // var box = boxes[i];
+    var box = boxes[i];
     xCenter = box.x1 + (box.x2 - box.x1) / 2;
     yCenter = box.y1 + (box.y2 - box.y1) / 2;
     context.fillStyle = ["white", "red", "blue", "green", "pink", "purple", "black", "orange"];
+    context.fillStyle="blue";
   context.fillRect(box.x1 - anchrSize, box.y1 - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x1 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x1 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize);
@@ -276,7 +286,7 @@ function drawBoxOn(box, context,e) {
   context.fillStyle="red";
   context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
 
-// }
+}
 	
 for (var i = 0; i < boxes.length; i++) {
     boxno= i;
