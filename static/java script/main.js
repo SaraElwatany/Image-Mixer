@@ -1,4 +1,5 @@
 
+
 var context = canvas.getContext('2d');
 let newImage = new Image(); 
 newImage.src =  "../static/Images/magnitude1.png"
@@ -20,6 +21,7 @@ function mag1(opto1) {
    contentType: "application/json",
    data: JSON.stringify(b)});
 }
+
 function phase1(opto1) {
   newImage.src =  "../static/Images/phase1.png"  
   context.drawImage(newImage, 0, 0, 400, 210);
@@ -231,18 +233,7 @@ function findCurrentArea(x, y) {
 }
 
 function newBox(x1, y1, x2, y2,e) {
-  x= x1;
-  y= y1;
-  f= x2;
-  g= y2;
-  const dict_values = {x , y, f, g}          //Pass the javascript variables to a dictionary.
-  const s = JSON.stringify(dict_values);      // Stringify converts a JavaScript object or value to a JSON string
-  //console.log(s);                         // Prints the variables to console window, which are in the JSON format
-  $.ajax({
-  url:"/test",
-  type:"POST",
-  contentType: "application/json",
-  data: JSON.stringify(s)});
+  
   context.drawImage(newImage, 0, 0, 400, 210);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
