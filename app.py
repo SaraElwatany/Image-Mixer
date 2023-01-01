@@ -7,7 +7,6 @@ import json
 import urllib.request
 import os
 import base64
-
 from werkzeug.utils import secure_filename
 
 
@@ -25,6 +24,10 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 imgs = ['static\Images\image1.png' , 'static\Images\image2.png']
 options = ["A","B"]
+option1= "5"
+option2= "5"
+value1= "N"
+value2= "N"
 
 @app.route('/', methods= ['GET','POST'])
 
@@ -87,94 +90,187 @@ def upload_image():
    
 
 
+@app.route('/boxes1', methods=['POST'])
+def boxes1():
+    global no_boxes1
+    
+    output = request.get_json()
+    result = json.loads(output)                 #this converts the json output to a python dictionary result
+    indx= list(result.keys())[0]
+    no_boxes1= result.get(indx)
+    #print("Number of Boxes for first image: ", no_boxes1) 
+    return result
+
+
+
+
 @app.route('/test', methods=['POST'])
 def test():
+    global img1_box1
+    global img1_box2
+    global result
+    if no_boxes1!=0:
+        box_no_indx= list(result.keys())[0]
+        img1_indx1= list(result.keys())[1]
+        img1_indx2= list(result.keys())[2]
+        img1_indx3= list(result.keys())[3]
+        img1_indx4= list(result.keys())[4]
+        box_no= result.get(box_no_indx)
     output = request.get_json()
-    #print(output)                   # This is the output that was stored in the JSON within the browser
     result = json.loads(output)         #this converts the json output to a python dictionary
-    no_boxes= list(result.keys())[0]
-    indx1= list(result.keys())[1]
-    indx2= list(result.keys())[2]
-    indx3= list(result.keys())[3]
-    indx4= list(result.keys())[4]    
-    #print("1: ", result)                       # Printing the new dictionary
-    #print(type(result))                #this shows the json converted as a python dictionary
-    img1 , fourier1 , mag1 , phase1 = functions.imageFourier("image1.png")
-    functions.plotspectrums(img1 , mag1 , phase1 , 1)   
-    #phase1= functions.readImage("static\Images\phase1.png")
-    #magnitude1= functions.readImage("static\Images\magnitude1.png")
-    if no_boxes== 1:
-        functions.mask("phase1.png",1,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-        functions.mask("magnitude1.png",1,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-
-    elif no_boxes== 2:
-        functions.mask("phase1.png",1,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-        functions.mask("magnitude1.png",1,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-        functions.mask("phase1.png",2,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-        functions.mask("magnitude1.png",2,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-        phas1= functions.readImage("1phase1.png")
-        phas2= functions.readImage("2phase1.png")
-        phase_anded= cv2.bitwise_and(phas1,phas2)
-        phase_anded.save(f'static/Images/"phase1_and"')
-        phase_ored= cv2.bitwise_or(phas1,phas2)
-        phase_ored.save(f'static/Images/"phase1_or"')
-        magnitude1= functions.readImage("1magnitude1.png")
-        magnitude2= functions.readImage("2magnitude1.png")
-        magnitude_anded= cv2.bitwise_and(magnitude1,magnitude2)
-        magnitude_anded.save(f'static/Images/"magnitude1_and"')
-        magnitude_ored= cv2.bitwise_or(magnitude1,magnitude2)
-        magnitude_ored.save(f'static/Images/"magnitude1_or"')
+    #print("Result: ", result) 
+    #print("Box Number: ", box_no)
+    if box_no==0:
+        img1_box1= result 
+    elif box_no==1:
+        img1_box2= result 
+    if option1== "1":
+        if no_boxes1==2:
+            print(value1)
+            print('-------------------------------------------------------------')
+            print(option1) 
+            functions.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+            functions.mask("static\Images\phase1.png",12,"phase",img1_box2.get(img1_indx1),img1_box2.get(img1_indx2),img1_box2.get(img1_indx3),img1_box2.get(img1_indx4))
+            if value1== "AND":
+                phase1= functions.and_mask('static\Images\maskedphase11.png','static\Images\maskedphase12.png',"phase_out",1)
+            elif value1== "OR":
+                phase1= functions.or_mask('static\Images\maskedphase11.png','static\Images\maskedphase12.png',"phase_out",1)
+        elif no_boxes1==1: 
+            functions.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+        elif (no_boxes1==0 and no_boxes2==1) or (no_boxes1==0 and no_boxes2==2):
+            functions.uniform_mask("static\Images\phase1.png",11,"phase")
     
-    elif no_boxes==0:
-        functions.uniform_mask("phase1.png",1,"phase",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
-        functions.uniform_mask("magnitude1.png",1,"magnitude",result.get(indx1),result.get(indx2),result.get(indx3),result.get(indx4))
+        
+    elif option1== "2":
+        if no_boxes1==2:
+            print(value1)
+            print('-------------------------------------------------------------')
+            print(option1) 
+            functions.mask("static\Images\magnitude1.png",11,"magnitude",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+            functions.mask("static\Images\magnitude1.png",12,"magnitude",img1_box2.get(img1_indx1),img1_box2.get(img1_indx2),img1_box2.get(img1_indx3),img1_box2.get(img1_indx4))
+            if value1== "AND": 
+                mag1= functions.and_mask('static\Images\maskedmagnitude11.png','static\Images\maskedmagnitude12.png'"magnitude_out",1)
+            elif value1== "OR":
+                mag1= functions.or_mask('static\Images\maskedmagnitude11.png','static\Images\maskedmagnitude12.png'"magnitude_out",1)
+        elif no_boxes1==1: 
+            functions.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+        elif (no_boxes1==0 and no_boxes2==1) or (no_boxes1==0 and no_boxes2==2):
+            functions.uniform_mask("static\Images\magnitude1.png",11,"magnitude")    
+    return result
 
+
+   
+@app.route('/boxes2', methods=['POST'])
+def boxes2():
+    global no_boxes2
+    
+    output= request.get_json()
+    result= json.loads(output)         #this converts the json output to a python dictionary
+    indx= list(result.keys())[0]
+    no_boxes2= result.get(indx)
+   # print("Number of boxes for second image: ", no_boxes2) 
     return result
    
-   
-   
-   
+
+
 
 @app.route('/test2', methods=['POST'])
 def test2():
+    global img2_box1
+    global img2_box2
+    global result2
+    if no_boxes2!=0:
+        box_no_indx= list(result2.keys())[0]
+        img2_indx1= list(result2.keys())[1]
+        img2_indx2= list(result2.keys())[2]
+        img2_indx3= list(result2.keys())[3]
+        img2_indx4= list(result2.keys())[4]
+        box_no= result2.get(box_no_indx)
     output = request.get_json()
     result2 = json.loads(output)         #this converts the json output to a python dictionary
-    #print("2: ", result2)                       # Printing the new dictionary
-    #print(type(result2))                #this shows the json converted as a python dictionary
-    no_boxes= list(result2.keys())[0]
-    indx1= list(result2.keys())[1]
-    indx2= list(result2.keys())[2]
-    indx3= list(result2.keys())[3]
-    indx4= list(result2.keys())[4]
-    img2 , fourier2 , mag2 , phase2 = functions.imageFourier("image2.png")
-    functions.plotspectrums(img2, mag2 , phase2, 2)
-    if no_boxes== 1:
-        functions.mask("phase2.png",1,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-        functions.mask("magnitude2.png",1,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-
-    elif no_boxes== 2:
-        functions.mask("phase2.png",1,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-        functions.mask("magnitude2.png",1,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-        functions.mask("phase2.png",2,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-        functions.mask("magnitude2.png",2,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-        phas1= functions.readImage("1phase2.png")
-        phas2= functions.readImage("2phase2.png")
-        phase_anded= cv2.bitwise_and(phas1,phas2)
-        phase_anded.save(f'static/Images/"phase2_and"')
-        phase_ored= cv2.bitwise_or(phas1,phas2)
-        phase_ored.save(f'static/Images/"phase2_or"')
-        magnitude1= functions.readImage("1magnitude2.png")
-        magnitude2= functions.readImage("2magnitude2.png")
-        magnitude_anded= cv2.bitwise_and(magnitude1,magnitude2)
-        magnitude_anded.save(f'static/Images/"magnitude2_and"')
-        magnitude_ored= cv2.bitwise_or(magnitude1,magnitude2)
-        magnitude_ored.save(f'static/Images/"magnitude2_or"')
+    #print("Box Number: ", box_no)
+    if box_no==0:
+         img2_box1= result2 
+    elif box_no==1:
+        img2_box2= result2
+    if option2== "1":
+        if no_boxes2==2:
+            print(value1)
+            print('-------------------------------------------------------------')
+            print(option1) 
+            functions.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+            functions.mask("static\Images\phase2.png",22,"phase",img2_box2.get(img2_indx1),img2_box2.get(img2_indx2),img2_box2.get(img2_indx3),img2_box2.get(img2_indx4))
+            if value1== "AND":
+                phase1= functions.and_mask('static\Images\maskedphase21.png','static\Images\maskedphase22.png',"phase_out",2)
+            elif value1== "OR":
+                phase1= functions.or_mask('static\Images\maskedphase21.png','static\Images\maskedphase22.png',"phase_out",2)
+        elif no_boxes2==1: 
+            functions.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+        elif (no_boxes2==0 and no_boxes1==1) or (no_boxes2==0 and no_boxes1==2):
+            functions.uniform_mask("static\Images\phase2.png",21,"phase")
     
-    elif no_boxes==0:
-        functions.uniform_mask("phase2.png",1,"phase",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-        functions.uniform_mask("magnitude2.png",1,"magnitude",result2.get(indx1),result2.get(indx2),result2.get(indx3),result2.get(indx4))
-
+        
+    elif option2== "2":
+        if no_boxes2==2:
+            print(value1)
+            print('-------------------------------------------------------------')
+            print(option1) 
+            functions.mask("static\Images\magnitude2.png",21,"magnitude",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+            functions.mask("static\Images\magnitude2.png",22,"magnitude",img2_box2.get(img2_indx1),img2_box2.get(img2_indx2),img2_box2.get(img2_indx3),img2_box2.get(img2_indx4))
+            if value1== "AND": 
+                mag1= functions.and_mask('static\Images\maskedmagnitude21.png','static\Images\maskedmagnitude22.png'"magnitude_out",2)
+            elif value1== "OR":
+                mag1= functions.or_mask('static\Images\maskedmagnitude21.png','static\Images\maskedmagnitude22.png'"magnitude_out",2)
+        elif no_boxes2==1: 
+            functions.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+        elif (no_boxes2==0 and no_boxes1==1) or (no_boxes2==0 and no_boxes1==2):
+            functions.uniform_mask("static\Images\magnitude2.png",21,"magnitude")
     return result2
+   
+    
+
+
+@app.route('/choice1', methods=['POST'])
+def choice1():
+    global value1
+    output= request.get_json()
+    ch1= json.loads(output)         #this converts the json output to a python dictionary
+    indx= list(ch1.keys())[0]
+    value1= ch1.get(indx)
+    return ch1
+
+
+
+@app.route('/choice2', methods=['POST'])
+def choice2():
+    global value2
+    output= request.get_json()
+    ch2= json.loads(output)         #this converts the json output to a python dictionary
+    indx= list(ch2.keys())[0]
+    value2= ch2.get(indx)
+    return ch2
+
+
+@app.route('/opt1', methods=['POST'])
+def opt1():
+    global option1
+    output= request.get_json()
+    opt= json.loads(output)         #this converts the json output to a python dictionary
+    indx= list(opt.keys())[0]
+    option1= opt.get(indx)
+    #print(option1)
+    return opt
+
+
+
+@app.route('/opt2', methods=['POST'])
+def opt2():
+    global option2
+    output= request.get_json()
+    opt= json.loads(output)         #this converts the json output to a python dictionary
+    indx= list(opt.keys())[0]
+    option2= opt.get(indx)
+    return opt
 
 
 
