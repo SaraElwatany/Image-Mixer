@@ -2,12 +2,13 @@ from flask import Flask , flash, request, redirect, url_for, render_template
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-import functions
 import json
 import urllib.request
 import os
 import base64
 from werkzeug.utils import secure_filename
+from Image import Image
+from Image import ImageProcessing
 
 
 app = Flask(__name__)
@@ -63,31 +64,36 @@ def upload_image():
             img2.save(os.path.join(UPLOAD_FOLDER,filename))
             imgs[1]=os.path.join(UPLOAD_FOLDER, filename)
           
-   
-    img_a = functions.readImage(imgs[0])
-    img_b = functions.readImage(imgs[1])
-    print(img_a)
-    print(img_b)
+    
+    image1 = Image(imgs[0])
+    image2 = Image(imgs[1])
 
-    if np.size(img_b) != np.size(img_a) :
-        new_height, new_width = np.shape(img_a)
-        img_b = cv2.resize(img_b, dsize=[new_width,new_height])
+    # img_a = image1.readImage()
+    # img_b = image2.readImage()
+    # print(img_a)
+    # print(img_b)
+
+    image2.img = image1.resizeImage(image1.img , image2.img)
 
 
-    freq_a , magnitude_spectrum_a , phase_spectrum_a = functions.imageFourier(img=img_a)
-    freq_b , magnitude_spectrum_b , phase_spectrum_b = functions.imageFourier(img=img_b)
+    freq_a , magnitude_a , phase_a = image1.getFourier()
+    freq_b , magnitude_b , phase_b = image2.getFourier()
 
-    functions.plotspectrums(magnitude_spectrum_a , phase_spectrum_a ,1)
-    functions.plotspectrums(magnitude_spectrum_b , phase_spectrum_b ,2)
+    
+    image1.save(magnitude_a , phase_a ,1)
+    image2.save(magnitude_b , phase_b ,2)
 
+    imageA = ImageProcessing(imgs[0],freq_a ,magnitude_a ,phase_a)
+    imageB = ImageProcessing(imgs[1],freq_b ,magnitude_b ,phase_b)
+    
     if options[0] == "Phase1 & Magnitude2":
-        functions.combined(freq_mag=freq_b,freq_phase=freq_a)
+        imageA.mixImages(freq_mag=imageB.freq,freq_phase=imageA.freq)
         print("Phase1Magnitude2")
     elif options[1] == "Phase2 & Magnitude1":
-        functions.combined(freq_mag=freq_a,freq_phase=freq_b)
+        imageA.mixImages(freq_mag=imageA.freq,freq_phase=imageB.freq)
         print("Phase2Magnitude1")
     else:
-        functions.combined(freq_mag=freq_b,freq_phase=freq_a)
+        imageA.mixImages(freq_mag=imageB.freq,freq_phase=imageA.freq)
         print("defaultChoice")
         
 
@@ -136,16 +142,16 @@ def test():
             print(value1)
             print('-------------------------------------------------------------')
             print(option1) 
-            functions.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
-            functions.mask("static\Images\phase1.png",12,"phase",img1_box2.get(img1_indx1),img1_box2.get(img1_indx2),img1_box2.get(img1_indx3),img1_box2.get(img1_indx4))
+            Image.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+            Image.mask("static\Images\phase1.png",12,"phase",img1_box2.get(img1_indx1),img1_box2.get(img1_indx2),img1_box2.get(img1_indx3),img1_box2.get(img1_indx4))
             if value1== "AND":
-                phase1= functions.and_mask('static\Images\maskedphase11.png','static\Images\maskedphase12.png',"phase_out",1)
+                phase1= Image.and_mask('static\Images\maskedphase11.png','static\Images\maskedphase12.png',"phase_out",1)
             elif value1== "OR":
-                phase1= functions.or_mask('static\Images\maskedphase11.png','static\Images\maskedphase12.png',"phase_out",1)
+                phase1= Image.or_mask('static\Images\maskedphase11.png','static\Images\maskedphase12.png',"phase_out",1)
         elif no_boxes1==1: 
-            functions.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+            Image.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
         elif (no_boxes1==0 and no_boxes2==1) or (no_boxes1==0 and no_boxes2==2):
-            functions.uniform_mask("static\Images\phase1.png",11,"phase")
+            Image.uniform_mask("static\Images\phase1.png",11,"phase")
     
         
     elif option1== "2":
@@ -153,16 +159,16 @@ def test():
             print(value1)
             print('-------------------------------------------------------------')
             print(option1) 
-            functions.mask("static\Images\magnitude1.png",11,"magnitude",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
-            functions.mask("static\Images\magnitude1.png",12,"magnitude",img1_box2.get(img1_indx1),img1_box2.get(img1_indx2),img1_box2.get(img1_indx3),img1_box2.get(img1_indx4))
+            Image.mask("static\Images\magnitude1.png",11,"magnitude",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+            Image.mask("static\Images\magnitude1.png",12,"magnitude",img1_box2.get(img1_indx1),img1_box2.get(img1_indx2),img1_box2.get(img1_indx3),img1_box2.get(img1_indx4))
             if value1== "AND": 
-                mag1= functions.and_mask('static\Images\maskedmagnitude11.png','static\Images\maskedmagnitude12.png'"magnitude_out",1)
+                mag1= Image.and_mask('static\Images\maskedmagnitude11.png','static\Images\maskedmagnitude12.png'"magnitude_out",1)
             elif value1== "OR":
-                mag1= functions.or_mask('static\Images\maskedmagnitude11.png','static\Images\maskedmagnitude12.png'"magnitude_out",1)
+                mag1= Image.or_mask('static\Images\maskedmagnitude11.png','static\Images\maskedmagnitude12.png'"magnitude_out",1)
         elif no_boxes1==1: 
-            functions.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
+            Image.mask("static\Images\phase1.png",11,"phase",img1_box1.get(img1_indx1),img1_box1.get(img1_indx2),img1_box1.get(img1_indx3),img1_box1.get(img1_indx4))
         elif (no_boxes1==0 and no_boxes2==1) or (no_boxes1==0 and no_boxes2==2):
-            functions.uniform_mask("static\Images\magnitude1.png",11,"magnitude")    
+            Image.uniform_mask("static\Images\magnitude1.png",11,"magnitude")    
     return result
 
 
@@ -204,16 +210,16 @@ def test2():
             print(value1)
             print('-------------------------------------------------------------')
             print(option1) 
-            functions.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
-            functions.mask("static\Images\phase2.png",22,"phase",img2_box2.get(img2_indx1),img2_box2.get(img2_indx2),img2_box2.get(img2_indx3),img2_box2.get(img2_indx4))
+            Image.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+            Image.mask("static\Images\phase2.png",22,"phase",img2_box2.get(img2_indx1),img2_box2.get(img2_indx2),img2_box2.get(img2_indx3),img2_box2.get(img2_indx4))
             if value1== "AND":
-                phase1= functions.and_mask('static\Images\maskedphase21.png','static\Images\maskedphase22.png',"phase_out",2)
+                phase1= Image.and_mask('static\Images\maskedphase21.png','static\Images\maskedphase22.png',"phase_out",2)
             elif value1== "OR":
-                phase1= functions.or_mask('static\Images\maskedphase21.png','static\Images\maskedphase22.png',"phase_out",2)
+                phase1= Image.or_mask('static\Images\maskedphase21.png','static\Images\maskedphase22.png',"phase_out",2)
         elif no_boxes2==1: 
-            functions.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+            Image.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
         elif (no_boxes2==0 and no_boxes1==1) or (no_boxes2==0 and no_boxes1==2):
-            functions.uniform_mask("static\Images\phase2.png",21,"phase")
+            Image.uniform_mask("static\Images\phase2.png",21,"phase")
     
         
     elif option2== "2":
@@ -221,16 +227,16 @@ def test2():
             print(value1)
             print('-------------------------------------------------------------')
             print(option1) 
-            functions.mask("static\Images\magnitude2.png",21,"magnitude",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
-            functions.mask("static\Images\magnitude2.png",22,"magnitude",img2_box2.get(img2_indx1),img2_box2.get(img2_indx2),img2_box2.get(img2_indx3),img2_box2.get(img2_indx4))
+            Image.mask("static\Images\magnitude2.png",21,"magnitude",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+            Image.mask("static\Images\magnitude2.png",22,"magnitude",img2_box2.get(img2_indx1),img2_box2.get(img2_indx2),img2_box2.get(img2_indx3),img2_box2.get(img2_indx4))
             if value1== "AND": 
-                mag1= functions.and_mask('static\Images\maskedmagnitude21.png','static\Images\maskedmagnitude22.png'"magnitude_out",2)
+                mag1= Image.and_mask('static\Images\maskedmagnitude21.png','static\Images\maskedmagnitude22.png'"magnitude_out",2)
             elif value1== "OR":
-                mag1= functions.or_mask('static\Images\maskedmagnitude21.png','static\Images\maskedmagnitude22.png'"magnitude_out",2)
+                mag1= Image.or_mask('static\Images\maskedmagnitude21.png','static\Images\maskedmagnitude22.png'"magnitude_out",2)
         elif no_boxes2==1: 
-            functions.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
+            Image.mask("static\Images\phase2.png",21,"phase",img2_box1.get(img2_indx1),img2_box1.get(img2_indx2),img2_box1.get(img2_indx3),img2_box1.get(img2_indx4))
         elif (no_boxes2==0 and no_boxes1==1) or (no_boxes2==0 and no_boxes1==2):
-            functions.uniform_mask("static\Images\magnitude2.png",21,"magnitude")
+            Image.uniform_mask("static\Images\magnitude2.png",21,"magnitude")
     return result2
    
     
