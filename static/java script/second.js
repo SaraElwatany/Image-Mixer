@@ -2,13 +2,31 @@ var canvas1 = document.getElementById("canvas1");
 var context1 = canvas1.getContext('2d');
 let newImage1 = new Image();
 newImage1.src =  "../static/Images/phase2.png"
-function mag2() {
+function mag2(opto2) {
   newImage1.src =  "../static/Images/magnitude2.png"  
   context1.drawImage(newImage1, 0, 0, 400, 210);
+
+  n1= opto2;
+  const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
+  const b = JSON.stringify(dict_boxe);      // Stringify converts a JavaScript object or value to a JSON string
+  $.ajax({
+  url:"/opt2",
+  type:"POST",
+  contentType: "application/json",
+  data: JSON.stringify(b)});
 }
-function phase2() {
+function phase2(opto2) {
  newImage1.src =  "../static/Images/phase2.png"  
  context1.drawImage(newImage1, 0, 0, 400, 210);
+
+ n1= opto2;
+ const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
+ const b = JSON.stringify(dict_boxe);      // Stringify converts a JavaScript object or value to a JSON string
+ $.ajax({
+ url:"/opt2",
+ type:"POST",
+ contentType: "application/json",
+ data: JSON.stringify(b)});
 }
 var lineOffset = 4;
 var anchrSize = 3;
