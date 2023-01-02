@@ -1,12 +1,10 @@
 
-
 var context = canvas.getContext('2d');
 let newImage = new Image(); 
 newImage.src =  "../static/Images/magnitude1.png"
 window.onload = function() {
-
-  context.drawImage(newImage, 0, 0, 400, 210);
-  context1.drawImage(newImage1, 0, 0, 400, 210);
+  context.drawImage(newImage, 0, 0, 400,210);
+  context1.drawImage(newImage1, 0, 0, 400,210);
 };
 
 function mag1(opto1) {
@@ -15,7 +13,7 @@ function mag1(opto1) {
     boxes.pop(boxes[1]);
   }
    newImage.src =  "../static/Images/magnitude1.png"  
-   context.drawImage(newImage, 0, 0, 400, 210);
+   context.drawImage(newImage, 0, 0, 400,210);
    
    n1= opto1;
    const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
@@ -27,22 +25,22 @@ function mag1(opto1) {
    data: JSON.stringify(b)});
 }
 
-function phase1(opto1) {
+function phase1(opto2) {
   for (var i = 0; i < boxes.length; i++) {
     boxes.pop(boxes[0]);
     boxes.pop(boxes[1]);
   }
   newImage.src =  "../static/Images/phase1.png"  
-  context.drawImage(newImage, 0, 0, 400, 210);
+  context.drawImage(newImage, 0, 0, 400,210);
 
-  n1= opto1;
-  const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
-  const b = JSON.stringify(dict_boxe);      // Stringify converts a JavaScript object or value to a JSON string
+  n2= opto2;
+  const dict_box = {n2}          //Pass the javascript variables to a dictionary.
+  const b1 = JSON.stringify(dict_box);      // Stringify converts a JavaScript object or value to a JSON string
   $.ajax({
   url:"/opt1",
   type:"POST",
   contentType: "application/json",
-  data: JSON.stringify(b)});
+  data: JSON.stringify(b1)});
 }
 
 
@@ -83,8 +81,9 @@ var tmpBox = null;
  
 };
 
-
+// var output=document.getElementById("out");
 document.getElementById("canvas").onmouseup = function(e) {
+// output.scr="../static/Images/output.png"
 	if (clickedArea.box == -1 && tmpBox != null ) {
    
      boxes.push(tmpBox);}
@@ -162,7 +161,7 @@ function redraw() {
 
   // canvas.width = canvas.width;
  var context = document.getElementById("canvas").getContext('2d');
-context.clearRect(0, 0,400, 210);
+context.clearRect(0, 0,400,210);
   context.beginPath();
 for (var i = 0; i < boxes.length; i++) {
     drawBoxOn(boxes[i], context);
@@ -222,7 +221,8 @@ function findCurrentArea(x, y) {
       }// center to delete rectangle 
        else if (boxes[i].y1 - lineOffset <  y && y < boxes[i].y2 + lineOffset) {
        
-              boxes.pop(boxes[i]);
+              boxes.pop(boxes[0]);
+              boxes.pop(boxes[1]);
               // boxes.pop(boxes[1]);
              
       }
@@ -243,7 +243,7 @@ function findCurrentArea(x, y) {
 
 function newBox(x1, y1, x2, y2,e) {
   
-  context.drawImage(newImage, 0, 0, 400, 210);
+  context.drawImage(newImage, 0, 0, 400,210);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -262,7 +262,7 @@ function newBox(x1, y1, x2, y2,e) {
 }
 
 function drawBoxOn(box, context,e) {
-  context.drawImage(newImage, 0, 0, 400, 210);
+  context.drawImage(newImage, 0, 0, 400,210);
   context.strokeStyle = box.color;
   context.fillStyle = box.color;
   context.lineWidth = box.lineWidth;
@@ -284,9 +284,9 @@ function drawBoxOn(box, context,e) {
   context.fillRect(box.x2 - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
   context.fillRect(box.x2 - anchrSize, box.y2 - anchrSize, 2 * anchrSize, 2 * anchrSize); 
   context.fillStyle="red";
-  context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);
+    context.fillRect(xCenter - anchrSize, yCenter - anchrSize, 2 * anchrSize, 2 * anchrSize);}
 
-}
+// }
 	
 for (var i = 0; i < boxes.length; i++) {
     boxno= i;
@@ -299,13 +299,13 @@ for (var i = 0; i < boxes.length; i++) {
 
   
   no_boxes= boxes.length;
-  const dict_boxes = {no_boxes}          //Pass the javascript variables to a dictionary.
-  const b = JSON.stringify(dict_boxes);      // Stringify converts a JavaScript object or value to a JSON string
+  const dictboxes = {no_boxes}          //Pass the javascript variables to a dictionary.
+  const b4 = JSON.stringify(dictboxes);      // Stringify converts a JavaScript object or value to a JSON string
   $.ajax({
   url:"/boxes1",
   type:"POST",
   contentType: "application/json",
-  data: JSON.stringify(b)});
+  data: JSON.stringify(b4)});
   	
 
 }

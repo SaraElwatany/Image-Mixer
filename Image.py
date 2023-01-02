@@ -48,7 +48,7 @@ class Image():
         imgcropped= cv2.bitwise_and(img,img,mask=x)
         cv2.imwrite(f'static/Images/masked{type}{imageno}.png', imgcropped)
         #plt.imsave(f'static/Images/masked{type}{imageno}.png',imgcropped ,cmap = 'gray' )
-        
+        return imgcropped
 
     def and_mask(self, image1,image2,type,no):
         img1= self.readImage(image1)
@@ -56,14 +56,15 @@ class Image():
         anded_img= cv2.bitwise_and(img1,img2)
         cv2.imwrite(f'static/Images/{type}{no}.png', anded_img)
         #plt.imsave(f'static\Images\masked{type}{imageno}.png',imgcropped ,cmap = 'gray' )
-
+        return anded_img
 
     def or_mask(self, image1,image2,type,no):
         img1= self.readImage(image1)
         img2= self.readImage(image2)
         ored_img= cv2.bitwise_or(img1,img2)
         cv2.imwrite(f'static/Images/{type}{no}.png', ored_img)
-        
+        return ored_img
+    
 
 
 
@@ -74,7 +75,7 @@ class Image():
         uni_img = 255*new_img
         cv2.imwrite(f'static/Images/uniform{type}{imageno}.png', uni_img)
         #uni_img.save(f'static/Images/uniform{type}{imageno}.png')
-
+        return uni_img
 
 class ImageProcessing(Image):
     def __init__(self, path,freq ,mag, phase):
@@ -88,4 +89,11 @@ class ImageProcessing(Image):
         imgCombined = np.real(np.fft.ifft2(combined))
         plt.imsave('static/Images/output.png',imgCombined, cmap='gray')
 
-
+    def combined_mask(mag, phase):
+        # combined = np.multiply(10**(mag/20), np.exp(1j*phase))
+        combined = (mag)* np.exp(1j*phase)
+        combined= np.fft.ifftshift(combined)
+        imgCombined = np.real(np.fft.ifft2(combined))
+        plt.imsave('static/Images/output.png',imgCombined, cmap='gray')
+        # return imgCombined
+    
