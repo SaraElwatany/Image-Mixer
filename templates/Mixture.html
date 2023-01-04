@@ -33,23 +33,51 @@
         <figure class="gallery__item gallery__item--0_0">
           <div class="buttons_1"> 
 
-            <button class="option" value="2" onclick="mag1(this.value)">Magnitude</button>
-            <button class="option" value="1" onclick="phase1(this.value)">phase</button>
+          <button class="option" value="2" onclick="mag1(this.value)">Magnitude</button>
+          <button class="option" value="1" onclick="phase1(this.value)">phase</button>
         </div>
+
         </figure>
         <figure class="gallery__item gallery__item--0_2">
           <div class="buttons">
-          <button class="rounded-button" type="button">
-            <i class="fa-regular fa-object-ungroup"
-            style="font-size:25px;"></i>
-            </button>
-            <button class="rounded-button" type="button">
+          <button class="rounded-button" type="button" value="AND" onclick="displayValue1(this.value)">
               <i class="fa-regular fa-object-group"
                             style="font-size:25px;"></i>
               </button>
-
+          <button class="rounded-button" type="button" value="OR" onclick="displayValue1(this.value)">
+            <i class="fa-regular fa-object-ungroup"
+            style="font-size:25px;"></i>
+            </button>
+            
+           <!-- <input type= button value= Click_Me id= btn onclick= "hideButton()"> -->
               </div>
         </figure>
+        
+        <script>
+        function hideButton(){
+          document.getElementById('btn').style.visibility= 'hidden';
+          }
+        </script>
+
+        <script>
+        function myFunction() {
+          document.getElementById("myCheck").click();
+        }
+        </script>
+        
+        <script>
+          function displayValue1(val) {    
+             n= val;
+             const dict_boxes = {n}          //Pass the javascript variables to a dictionary.
+             const b = JSON.stringify(dict_boxes);      // Stringify converts a JavaScript object or value to a JSON string
+             $.ajax({
+             url:"/choice1",
+             type:"POST",
+             contentType: "application/json",
+             data: JSON.stringify(b)});
+
+          }
+          </script>
 
           <figure class="gallery__item gallery__item--1">
             {% if img1 %}
@@ -59,7 +87,7 @@
           </figure>
           <figure class="gallery__item gallery__item--2">
 
-            <canvas id="canvas" width=400 height=210  ></canvas>
+            <canvas id="canvas" width=400 height=210   ></canvas>
               <!-- <img src="../static\Images\image2.png" alt="Gallery image 2" class="gallery__img"> -->
           </figure>
 
@@ -72,17 +100,14 @@
           <figure class="gallery__item gallery__item--3">
             <form method="post" action="/" enctype="multipart/form-data">
               <div class="buttons_1">
+
               <input type="submit" value="Phase1 & Magnitude2" name="1"/>
               <input type="submit" value="Phase2 & Magnitude1" name="2" />
-              <!-- <input type="submit" value="Perform" name="3"/> -->
             </div>
             <div class="buttons_2">
-
-              <input style="padding:11px 85px; font-size: 20px;" type="submit" value="Cut" name="3" />
-              <input style="padding:11px 70px; font-size: 20px; " type="submit" value="select" name="3" />
+              <input style="padding:11px 70px; font-size: 20px;" type="submit" value="Select" name="3" />
+              <input style="padding:11px 85px; font-size: 20px; " type="submit" value="Cut" name="4" />
             </div>
-
-
             </form>
           </figure>
 
@@ -91,7 +116,6 @@
             <figure class="gallery__item gallery__item--8_1">
 
               <form method="post" action="/" enctype="multipart/form-data" >
-                       <!-- <input type="file" name="files[]" multiple="true" class="custom-file-input" autocomplete="off" required  onchange="readURL2(this);"> -->
                        <input type="file" name="img2" class="custom-file-input" onchange="this.parentElement.submit()">
                        <input type="file" name="img1" class="custom-file-input" onchange="this.parentElement.submit()" style="display:none;">
               </form>
@@ -101,26 +125,42 @@
             <div>Image 2</div>
           </figure>
           <figure class="gallery__item gallery__item--8_0">
-         
             <div class="buttons_1"> 
-              <button class="option" value="2" onclick="mag2(this.value)">Magnitude</button>
+
+        <button class="option" value="2" onclick="mag2(this.value)">Magnitude</button>
             <button class="option" value="1" onclick="phase2(this.value)">phase</button>
+          </div>
 
-
-         </div>
           </figure>
           <figure class="gallery__item gallery__item--0_9">
             <div class="buttons">
-            <button class="rounded-button" type="button">
+            
+            <button class="rounded-button" type="button" value="AND" onclick="displayValue2(this.value)">
+              <i class="fa-regular fa-object-group"
+              style="font-size:25px;"></i>
+              </button>
+              <button class="rounded-button" type="button" value="OR" onclick="displayValue2(this.value)">
               <i class="fa-regular fa-object-ungroup"
               style="font-size:25px;"></i>
               </button>
-              <button class="rounded-button" type="button">
-                <i class="fa-regular fa-object-group"
-                style="font-size:25px;"></i>
-                </button>
                 </div>
           </figure>
+
+
+          <script>
+            function displayValue2(valu) {    
+               n2= valu;
+               const dict_boxes = {n2}          //Pass the javascript variables to a dictionary.
+               const b2 = JSON.stringify(dict_boxes);      // Stringify converts a JavaScript object or value to a JSON string
+               $.ajax({
+               url:"/choice2",
+               type:"POST",
+               contentType: "application/json",
+               data: JSON.stringify(b2)});
+  
+            }
+            </script>
+
           <figure class="gallery__item gallery__item--4">
             
               <img id="btn2" src="{{img2}}" alt="Gallery image 4" class="gallery__img">
@@ -128,14 +168,13 @@
           </figure>
           <figure class="gallery__item gallery__item--7">
 
-            <canvas id="canvas1" width=400 height=210 ></canvas>
-            <!-- <img src="../static\Images\image2.png" alt="Gallery image 4" class="gallery__img"> -->
+            <canvas id="canvas1" width=400 height=210  ></canvas>
         </figure>
         <figure class="gallery__item gallery__item--6_0">
           <div>Output Image</div>
         </figure>
           <figure class="gallery__item gallery__item--6">
-              <img id="out" src="../static/Images/output.png" alt="Gallery image 6" class="gallery__img">
+              <img id="out" src="../static\Images\output.png" alt="Gallery image 6" class="gallery__img">
           </figure>
       </div>
   </div>

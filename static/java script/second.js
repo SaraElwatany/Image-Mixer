@@ -9,7 +9,7 @@ function mag2(opto2) {
   }
 
   newImage1.src =  "../static/Images/magnitude2.png"  
-  context1.drawImage(newImage1, 0, 0, 400,210);
+  context1.drawImage(newImage1, 0, 0, 440, 230);
 
   n1= opto2;
    const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
@@ -26,7 +26,7 @@ function phase2(opto2) {
     boxes1.pop(boxes1[1]);
   }
  newImage1.src =  "../static/Images/phase2.png"  
- context1.drawImage(newImage1, 0, 0, 400,210);
+ context1.drawImage(newImage1, 0, 0, 440, 230);
 
  n2= opto2;
   const dict_box = {n2}          //Pass the javascript variables to a dictionary.
@@ -82,19 +82,7 @@ document.getElementById("canvas1").onmouseup = function(e) {
 	if (clickedArea1.box == -1 && tmpBox1 != null) {
      boxes1.push(tmpBox1);
     } 
-    // else if (clickedArea1.box != -1) {
-    //   var selectedBox = boxes[clickedArea1.box];
-    //   if (selectedBox.x1 > selectedBox.x2) {
-    //     var previousX1 = selectedBox.x1;
-    //     selectedBox.x1 = selectedBox.x2;
-    //     selectedBox.x2 = previousX1;
-    //   }
-    //   if (selectedBox.y1 > selectedBox.y2) {
-    //     var previousY1 = selectedBox.y1;
-    //     selectedBox.y1 = selectedBox.y2;
-    //     selectedBox.y2 = previousY1;
-    //   }
-    // }
+  
   clickedArea1 = {box: -1, pos:'o'};
   tmpBox1 = null;
   mousedown = false;
@@ -160,7 +148,7 @@ document.getElementById("canvas1").onmousemove = function(e) {
 
 function redraw1() {
   var context = canvas1.getContext('2d');
-  context.clearRect(0, 0,400,210);
+  context.clearRect(0, 0,440, 230);
   context.beginPath();
 for (var i = 0; i < boxes1.length; i++) {
     drawBoxOn1(boxes1[i], context);
@@ -226,7 +214,7 @@ function findCurrentArea1(x, y) {
 
 function newBox1(x1, y1, x2, y2) {
 
-  context1.drawImage(newImage1, 0, 0, 400,210);
+  context1.drawImage(newImage1, 0, 0, 440, 230);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -248,9 +236,9 @@ function drawBoxOn1(box, context) {
   context.strokeStyle = box.color;
   context.fillStyle = box.color;
   context.lineWidth = box.lineWidth;
-  context1.drawImage(newImage1, 0, 0, 400,210);
+  context1.drawImage(newImage1, 0, 0, 440, 230);
   context.rect(box.x1, box.y1, (box.x2 - box.x1), (box.y2 - box.y1));
-
+    
   context.stroke();
   
 

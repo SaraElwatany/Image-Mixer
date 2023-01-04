@@ -3,8 +3,8 @@ var context = canvas.getContext('2d');
 let newImage = new Image(); 
 newImage.src =  "../static/Images/magnitude1.png"
 window.onload = function() {
-  context.drawImage(newImage, 0, 0, 400,210);
-  context1.drawImage(newImage1, 0, 0, 400,210);
+  context.drawImage(newImage, 0, 0, 440, 230);
+  context1.drawImage(newImage1, 0, 0, 440, 230);
 };
 
 function mag1(opto1) {
@@ -13,7 +13,7 @@ function mag1(opto1) {
     boxes.pop(boxes[1]);
   }
    newImage.src =  "../static/Images/magnitude1.png"  
-   context.drawImage(newImage, 0, 0, 400,210);
+   context.drawImage(newImage, 0, 0, 440, 230);
    
    n1= opto1;
    const dict_boxe = {n1}          //Pass the javascript variables to a dictionary.
@@ -31,7 +31,7 @@ function phase1(opto2) {
     boxes.pop(boxes[1]);
   }
   newImage.src =  "../static/Images/phase1.png"  
-  context.drawImage(newImage, 0, 0, 400,210);
+  context.drawImage(newImage, 0, 0, 440, 230);
 
   n2= opto2;
   const dict_box = {n2}          //Pass the javascript variables to a dictionary.
@@ -161,7 +161,7 @@ function redraw() {
 
   // canvas.width = canvas.width;
  var context = document.getElementById("canvas").getContext('2d');
-context.clearRect(0, 0,400,210);
+context.clearRect(0, 0,440, 230);
   context.beginPath();
 for (var i = 0; i < boxes.length; i++) {
     drawBoxOn(boxes[i], context);
@@ -243,7 +243,7 @@ function findCurrentArea(x, y) {
 
 function newBox(x1, y1, x2, y2,e) {
   
-  context.drawImage(newImage, 0, 0, 400,210);
+  context.drawImage(newImage, 0, 0, 440, 230);
   boxX1 = x1 < x2 ? x1 : x2;
   boxY1 = y1 < y2 ? y1 : y2;
   boxX2 = x1 > x2 ? x1 : x2;
@@ -262,7 +262,7 @@ function newBox(x1, y1, x2, y2,e) {
 }
 
 function drawBoxOn(box, context,e) {
-  context.drawImage(newImage, 0, 0, 400,210);
+  context.drawImage(newImage, 0, 0, 440, 230);
   context.strokeStyle = box.color;
   context.fillStyle = box.color;
   context.lineWidth = box.lineWidth;
